@@ -1,0 +1,5 @@
+<?php
+
+useAuth();
+
+echo 'home';
