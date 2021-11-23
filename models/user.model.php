@@ -10,8 +10,9 @@ class User
   ) {
   }
 
-  public static function fromStdClass(stdClass $obj)
+  public static function fromStdClass(?stdClass $obj)
   {
+    if (!$obj) return null;
     return new User(
       $obj->id,
       $obj->name,
