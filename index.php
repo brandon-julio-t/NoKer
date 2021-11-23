@@ -58,6 +58,8 @@
         useRoute('/blogs/view');
         break;
 
+      case '/admin/manage-blogs-queue':
+      case '/admin/manage-users':
       case '/auth/login':
       case '/auth/register':
       case '/blogs/create':

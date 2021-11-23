@@ -4,7 +4,7 @@ function useActiveStyle(string|array $pathToMatch)
   global $path;
   if (is_array($pathToMatch)) {
     return in_array($path, $pathToMatch) ? 'active' : '';
-  } else if ($pathToMatch instanceof string) {
+  } else if (is_string($pathToMatch)) {
     return $path === $pathToMatch ? 'active' : '';
   } else {
     return '';
@@ -23,6 +23,18 @@ function useActiveStyle(string|array $pathToMatch)
         <?php if ($user) { ?>
           <li class="nav-item me-auto">
             <a class="nav-link <?= useActiveStyle(['/', '/home']) ?>" aria-current="page" href="/">Home</a>
+          </li>
+        <?php } ?>
+        <?php if ($user && $user->email === 'admin@email.com') { ?>
+          <li class="nav-item me-auto">
+            <a class="nav-link <?= useActiveStyle('/admin/manage-users') ?>" aria-current="page" href="/admin/manage-users">
+              Manage Users
+            </a>
+          </li>
+          <li class="nav-item me-auto">
+            <a class="nav-link <?= useActiveStyle('/admin/manage-blogs-queue') ?>" aria-current="page" href="/admin/manage-blogs-queue">
+              Manage Blogs Queue
+            </a>
           </li>
         <?php } ?>
       </ul>
