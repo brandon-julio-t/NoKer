@@ -59,9 +59,6 @@ function useActiveStyle(string|array $pathToMatch)
             </a>
             <ul class="dropdown-menu shadow" aria-labelledby="navbarDropdown">
               <li>
-                <a class="dropdown-item" href="/profile">Profile</a>
-              </li>
-              <li>
                 <a class="dropdown-item" href="/blogs/create">Create Blog</a>
               </li>
               <hr class="dropdown-divider">

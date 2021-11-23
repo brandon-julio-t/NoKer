@@ -2,6 +2,26 @@
 
 PHP BP case for NAR22-1
 
+## How to Run
+
+1. Config XAMPP to serve the projectd root directory.
+
+> example
+
+```
+#DocumentRoot "C:/xampp/htdocs"
+#<Directory "C:/xampp/htdocs">
+
+DocumentRoot "D:\GitHub\NoKer"
+<Directory "D:\GitHub\NoKer">
+```
+
+2. Create `noker` database.
+3. Copy paste and run all sqls located in `/migrations` through `phpmyadmin`.
+4. Visit `localhost/migrate` in browser to seed the database.
+5. Login as admin using `admin@email.com` and `admin` email password combination.
+6. Use the app.
+
 ## Ideas
 
 - flow login register kaya user biasa, pakai email password
@@ -26,7 +46,7 @@ PHP BP case for NAR22-1
   [x] sqli (semua form)
   [x] csrf (semua form)
   [x] config htaccess
-    [x] directory listing
-    [x] custom error page
-    [x] pretty url (/home.php jadi /home aja)
+  [x] directory listing
+  [x] custom error page
+  [x] pretty url (/home.php jadi /home aja)
   [x] cors (ketika ajax)
