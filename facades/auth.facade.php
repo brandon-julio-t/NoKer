@@ -39,7 +39,7 @@ class Auth
     $adminEmail = 'admin@email.com';
     $adminPassword = 'admin';
     if ($email === $adminEmail && $password === $adminPassword) {
-      return new User('00000000-0000-0000-0000-000000000000', 'admin', $adminEmail, '');
+      return new User('00000000-0000-0000-0000-000000000000', 'admin', $adminEmail);
     }
     return null;
   }

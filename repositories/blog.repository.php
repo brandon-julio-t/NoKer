@@ -31,7 +31,7 @@ class BlogRepository
     $obj = $query->get_result()->fetch_object();
     $model = Blog::fromStdClass($obj);
     $db->close();
-    $model->user = UserRepository::getOneById($model->user_id);
+    if ($model) $model->user = UserRepository::getOneById($model->user_id);
     return $model;
   }
 

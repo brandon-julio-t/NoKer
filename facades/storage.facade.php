@@ -9,4 +9,10 @@ class Storage
     $isMoved = move_uploaded_file($file['tmp_name'], $storagePath);
     return [$isMoved, $path];
   }
+
+  public static function exists(string $path)
+  {
+    $storagePath = __DIR__ . '/../' . $path;
+    return file_exists($storagePath);
+  }
 }

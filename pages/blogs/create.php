@@ -1,29 +1,37 @@
 <?php
 
+useAuth();
+
 $message = null;
 $error = null;
 $method = useHttpMethod();
 if ($method === 'POST') {
   useCheckCsrf();
 
-  [$ok, $path] = Storage::save($_FILES['image']);
-  if (!$ok) {
-    $error = 'Unable to upload image.';
+  $image = $_FILES['image'];
+  $isImage = useMustImage($image);
+  if (!$isImage) {
+    useFlashAlert('Please upload an image.', 'danger');
   } else {
-    $blog = new Blog(
-      useUuid(),
-      $_POST['title'],
-      $_POST['content'],
-      $path,
-      'unapproved',
-      Auth::getUser()->id,
-      useNow()
-    );
-    $isCreated = BlogRepository::create($blog);
-    if (!$isCreated) {
-      useFlashAlert('An error occurred. Please try again.', 'danger');
+    [$ok, $path] = Storage::save($image);
+    if (!$ok) {
+      useFlashAlert('Unable to upload image.', 'danger');
     } else {
-      useFlashAlert('Blog created successfully.', 'success');
+      $blog = new Blog(
+        useUuid(),
+        $_POST['title'],
+        $_POST['content'],
+        $path,
+        'unapproved',
+        Auth::getUser()->id,
+        useNow()
+      );
+      $isCreated = BlogRepository::create($blog);
+      if (!$isCreated) {
+        useFlashAlert('An error occurred. Please try again.', 'danger');
+      } else {
+        useFlashAlert('Blog created successfully.', 'success');
+      }
     }
   }
 }
