@@ -34,10 +34,10 @@ class UserRepository
     }
 
     $result = $db->query('select count(*) as count from users');
-    $totalUsers = $result->fetch_object()->count;
+    $totalCount = $result->fetch_object()->count;
 
     $db->close();
-    return [$models, $totalUsers];
+    return [$models, $totalCount];
   }
 
   public static function getOneById(string $id)

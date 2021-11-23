@@ -17,8 +17,14 @@ if ($method === 'POST') {
   }
 }
 
-$unapprovedBlogs = BlogRepository::getAllUnapproved();
-$approvedBlogs = BlogRepository::getAllApproved();
+$unapprovedBlogCurrentPage = isset($_GET['p1']) ? $_GET['p1'] : 1;
+$approvedBlogCurrentPage = isset($_GET['p2']) ? $_GET['p2'] : 1;
+
+[$unapprovedBlogs, $unapprovedBlogsCount] = BlogRepository::getAllUnapprovedPaginated($unapprovedBlogCurrentPage);
+[$approvedBlogs, $approvedBlogsCount] = BlogRepository::getAllApprovedPaginated($approvedBlogCurrentPage);
+
+$unapprovedBlogsMaxCount = ceil($unapprovedBlogsCount / 10);
+$approvedBlogsMaxCount = ceil($approvedBlogsCount / 10);
 
 useFlashAlert();
 
@@ -60,6 +66,33 @@ useFlashAlert();
           <?php } ?>
         </tbody>
       </table>
+      <?php if ($unapprovedBlogsMaxCount > 0) { ?>
+        <div aria-label="Page navigation example" class="d-flex justify-content-center">
+          <ul class="pagination">
+            <li class="page-item <?= $unapprovedBlogCurrentPage <= 1 ? 'disabled' : '' ?>">
+              <a class="page-link" href="/admin/manage-blogs-queue?p1=1&p2=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item <?= $unapprovedBlogCurrentPage <= 1 ? 'disabled' : '' ?>">
+              <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogCurrentPage - 1 ?>&p2=<?= $approvedBlogCurrentPage - 1 ?>" aria-label="Previous">
+                <span aria-hidden="true">&lsaquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><span class="page-link"><?= $unapprovedBlogCurrentPage ?> / <?= $unapprovedBlogsMaxCount ?></span></li>
+            <li class="page-item <?= $unapprovedBlogCurrentPage >= $unapprovedBlogsMaxCount ? 'disabled' : '' ?>">
+              <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogCurrentPage + 1 ?>&p2=<?= $approvedBlogCurrentPage + 1 ?>" aria-label="Next">
+                <span aria-hidden="true">&rsaquo;</span>
+              </a>
+            </li>
+            <li class="page-item <?= $unapprovedBlogCurrentPage >= $unapprovedBlogsMaxCount ? 'disabled' : '' ?>">
+              <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogsMaxCount ?>&p2=<?= $approvedBlogsMaxCount ?>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      <?php } ?>
     </div>
   </div>
   <div class="col">
@@ -97,6 +130,33 @@ useFlashAlert();
           <?php } ?>
         </tbody>
       </table>
+      <?php if ($approvedBlogsMaxCount > 0) { ?>
+      <div aria-label="Page navigation example" class="d-flex justify-content-center">
+        <ul class="pagination">
+          <li class="page-item <?= $approvedBlogCurrentPage <= 1 ? 'disabled' : '' ?>">
+            <a class="page-link" href="/admin/manage-blogs-queue?p1=1&p2=1" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item <?= $approvedBlogCurrentPage <= 1 ? 'disabled' : '' ?>">
+            <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogCurrentPage - 1 ?>&p2=<?= $approvedBlogCurrentPage - 1 ?>" aria-label="Previous">
+              <span aria-hidden="true">&lsaquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><span class="page-link"><?= $approvedBlogCurrentPage ?> / <?= $approvedBlogsMaxCount ?></span></li>
+          <li class="page-item <?= $approvedBlogCurrentPage >= $approvedBlogsMaxCount ? 'disabled' : '' ?>">
+            <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogCurrentPage + 1 ?>&p2=<?= $approvedBlogCurrentPage + 1 ?>" aria-label="Next">
+              <span aria-hidden="true">&rsaquo;</span>
+            </a>
+          </li>
+          <li class="page-item <?= $approvedBlogCurrentPage >= $approvedBlogsMaxCount ? 'disabled' : '' ?>">
+            <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogsMaxCount ?>&p2=<?= $approvedBlogsMaxCount ?>" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <?php } ?>
     </div>
   </div>
 </div>

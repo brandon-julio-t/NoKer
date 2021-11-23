@@ -42,6 +42,60 @@ class BlogRepository
     return $models;
   }
 
+  public static function getAllApprovedPaginated(int $page = 1)
+  {
+    $db = MySqlAdapter::get();
+
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+
+    $query = $db->prepare('select * from blogs where status = \'approved\' order by created_at desc, title desc limit ? offset ?');
+    $query->bind_param('ii', $limit, $offset);
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+
+    while ($obj = $result->fetch_object()) {
+      $model = Blog::fromStdClass($obj);
+      $model->user = UserRepository::getOneById($model->user_id);
+      $models[] = $model;
+    }
+
+    $result = $db->query('select count(*) as count from blogs where status = \'approved\'');
+    $totalCount = $result->fetch_object()->count;
+
+    $db->close();
+    return [$models, $totalCount];
+  }
+
+  public static function getAllUnapprovedPaginated(int $page = 1)
+  {
+    $db = MySqlAdapter::get();
+
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+
+    $query = $db->prepare('select * from blogs where status = \'unapproved\' order by created_at desc, title desc limit ? offset ?');
+    $query->bind_param('ii', $limit, $offset);
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+
+    while ($obj = $result->fetch_object()) {
+      $model = Blog::fromStdClass($obj);
+      $model->user = UserRepository::getOneById($model->user_id);
+      $models[] = $model;
+    }
+
+    $result = $db->query('select count(*) as count from blogs where status = \'unapproved\'');
+    $totalCount = $result->fetch_object()->count;
+
+    $db->close();
+    return [$models, $totalCount];
+  }
+
   public static function getAllUnapproved()
   {
     $db = MySqlAdapter::get();

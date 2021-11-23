@@ -30,8 +30,8 @@ if ($method === 'POST') {
 }
 
 $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
-[$users, $totalUsers] = UserRepository::getAllPaginated($currentPage);
-$maxPage = $totalUsers / 10;
+[$users, $totalCount] = UserRepository::getAllPaginated($currentPage);
+$maxPage = ceil($totalCount / 10);
 
 useFlashAlert();
 
@@ -58,7 +58,7 @@ useFlashAlert();
           </td>
           <td>
             <form method="POST">
-              <?= useCsrfInput(); ?>
+              <?= useCsrfInput(false); ?>
               <input type="hidden" name="user-id" value="<?= $user->id ?>">
               <input type="hidden" name="action" value="<?= $user->blocked_at ? 'activate' : 'deactivate' ?>">
               <button type="submit" class="btn btn-dark"><?= $user->blocked_at ? 'Activate' : 'Deactivate' ?></button>
