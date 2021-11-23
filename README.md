@@ -16,6 +16,8 @@ DocumentRoot "D:\GitHub\NoKer"
 <Directory "D:\GitHub\NoKer">
 ```
 
+> Don't forget to restart your apache web server after editing the config.
+
 2. Create `noker` database.
 3. Copy paste and run all sqls located in `migrations` folder through `localhost/phpmyadmin`.
 4. Visit `localhost/migrate` in browser to seed the database.
