@@ -7,4 +7,4 @@ create table blogs (
   `user_id` varchar(255) not null,
   `created_at` datetime not null,
   foreign key `fk_user` (`user_id`) references `users` (`id`)
-)
+);

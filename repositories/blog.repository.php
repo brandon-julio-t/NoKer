@@ -58,4 +58,46 @@ class BlogRepository
     $db->close();
     return $isSuccess;
   }
+
+  public static function update(Blog $blog)
+  {
+    $db = MySqlAdapter::get();
+
+    $query = $db->prepare("
+      update blogs set
+        `title` = ?,
+        `content` = ?,
+        `image_path` = ?,
+        `status` = ?,
+        `user_id` = ?
+      where `id` = ?
+    ");
+    $query->bind_param(
+      'ssssss',
+      $blog->title,
+      $blog->content,
+      $blog->image_path,
+      $blog->status,
+      $blog->user_id,
+      $blog->id
+    );
+    $query->execute();
+
+    $isSuccess = $query->affected_rows > 0;
+    $db->close();
+    return $isSuccess;
+  }
+
+  public static function delete(Blog $blog)
+  {
+    $db = MySqlAdapter::get();
+
+    $query = $db->prepare("delete from blogs where id = ?");
+    $query->bind_param('s', $blog->id);
+    $query->execute();
+
+    $isSuccess = $query->affected_rows > 0;
+    $db->close();
+    return $isSuccess;
+  }
 }

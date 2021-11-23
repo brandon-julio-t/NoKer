@@ -2,6 +2,8 @@
 
 function useDebug(mixed $value)
 {
-  var_dump($value);
+  echo '<pre>';
+  var_export($value);
+  echo '</pre>';
   die();
 }

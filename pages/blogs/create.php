@@ -12,6 +12,8 @@ if ($method === 'POST') {
   $isImage = useMustImage($image);
   if (!$isImage) {
     useFlashAlert('Please upload an image.', 'danger');
+  } else if ($image['size'] > 1000000) {
+    useFlashAlert('Image size must not exceed 1MB.', 'danger');
   } else {
     [$ok, $path] = Storage::save($image);
     if (!$ok) {
@@ -46,11 +48,11 @@ useFlashAlert();
 
     <form action="" method="POST" enctype="multipart/form-data" class="d-grid gap-2">
       <?= useCsrfInput() ?>
-      <input type="text" name="title" placeholder="Title" class="form-control">
-      <textarea name="content" rows="10" class="form-control" placeholder="Content..."></textarea>
-      <input type="file" name="image" placeholder="Image" class="form-control form-control-sm">
+      <input type="text" name="title" placeholder="Title" class="form-control" required>
+      <textarea name="content" rows="10" class="form-control" placeholder="Content..." required></textarea>
+      <input type="file" name="image" placeholder="Image" class="form-control form-control-sm" required>
       <div class="d-grid">
-        <button class="btn btn-primary" type="submit">Submit</button>
+        <button class="btn btn-primary" type="submit">Create</button>
       </div>
     </form>
   </div>
