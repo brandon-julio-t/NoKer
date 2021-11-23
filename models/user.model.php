@@ -7,7 +7,8 @@ class User
     public string $name = '',
     public string $email = '',
     public string $password = '',
-    public string $profile_picture = ''
+    public string $profile_picture = '',
+    public ?string $blocked_at = null,
   ) {
   }
 
@@ -19,7 +20,8 @@ class User
       $obj->name,
       $obj->email,
       $obj->password,
-      $obj->profile_picture
+      $obj->profile_picture,
+      $obj->blocked_at
     );
   }
 }

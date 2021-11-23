@@ -16,10 +16,11 @@
   require_once './facades/auth.facade.php';
   require_once './facades/hash.facade.php';
   require_once './facades/storage.facade.php';
-  require_once './hooks/flash-alert.hook.php';
+  require_once './hooks/admin.hook.php';
   require_once './hooks/auth.hook.php';
   require_once './hooks/csrf.hook.php';
   require_once './hooks/debug.hook.php';
+  require_once './hooks/flash-alert.hook.php';
   require_once './hooks/guest.hook.php';
   require_once './hooks/http-method.hook.php';
   require_once './hooks/must-image.hook.php';

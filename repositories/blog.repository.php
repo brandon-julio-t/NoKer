@@ -22,6 +22,46 @@ class BlogRepository
     return $models;
   }
 
+  public static function getAllApproved()
+  {
+    $db = MySqlAdapter::get();
+
+    $query = $db->prepare('select * from blogs where status = \'approved\' order by created_at desc');
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+
+    while ($obj = $result->fetch_object()) {
+      $model = Blog::fromStdClass($obj);
+      $model->user = UserRepository::getOneById($model->user_id);
+      $models[] = $model;
+    }
+
+    $db->close();
+    return $models;
+  }
+
+  public static function getAllUnapproved()
+  {
+    $db = MySqlAdapter::get();
+
+    $query = $db->prepare('select * from blogs where status = \'unapproved\' order by created_at desc');
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+
+    while ($obj = $result->fetch_object()) {
+      $model = Blog::fromStdClass($obj);
+      $model->user = UserRepository::getOneById($model->user_id);
+      $models[] = $model;
+    }
+
+    $db->close();
+    return $models;
+  }
+
   public static function getOneById(string $id)
   {
     $db = MySqlAdapter::get();

@@ -1,6 +1,6 @@
 <?php
 
-$blogs = BlogRepository::getAll();
+$blogs = BlogRepository::getAllApproved();
 
 array_map(function (Blog $blog) {
   if (strlen($blog->content) > 100) {

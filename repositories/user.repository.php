@@ -2,6 +2,22 @@
 
 class UserRepository
 {
+  public static function getAll()
+  {
+    $db = MySqlAdapter::get();
+    $query = $db->prepare('select * from users');
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+    while ($obj = $result->fetch_object()) {
+      $models[] = User::fromStdClass($obj);
+    }
+
+    $db->close();
+    return $models;
+  }
+
   public static function getOneById(string $id)
   {
     $db = MySqlAdapter::get();
@@ -27,8 +43,27 @@ class UserRepository
   public static function create(User $user)
   {
     $db = MySqlAdapter::get();
-    $query = $db->prepare('insert into users (id, name, email, password) values (?, ?, ?, ?)');
+    $query = $db->prepare('insert into users (`id`, `name`, `email`, `password`) values (?, ?, ?, ?)');
     $query->bind_param('ssss', useUuid(), $user->name, $user->email, $user->password);
+    $query->execute();
+    $isSuccess = $query->affected_rows > 0;
+    $db->close();
+    return $isSuccess;
+  }
+
+  public static function update(User $user)
+  {
+    $db = MySqlAdapter::get();
+    $query = $db->prepare('
+      update users set
+        `name` = ?,
+        `email` = ?,
+        `password` = ?,
+        `blocked_at` = ?
+      where `id` = ?
+    ');
+    $hashed = Hash::make($user->password);
+    $query->bind_param('sssss', $user->name, $user->email, $hashed, $user->blocked_at, $user->id);
     $query->execute();
     $isSuccess = $query->affected_rows > 0;
     $db->close();
