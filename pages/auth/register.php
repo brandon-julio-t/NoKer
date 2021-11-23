@@ -25,7 +25,6 @@ if ($method === 'POST') {
   }
 }
 
-
 useFlashAlert();
 
 ?>

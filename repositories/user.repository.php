@@ -44,7 +44,7 @@ class UserRepository
   {
     $db = MySqlAdapter::get();
     $query = $db->prepare('insert into users (`id`, `name`, `email`, `password`) values (?, ?, ?, ?)');
-    $query->bind_param('ssss', useUuid(), $user->name, $user->email, $user->password);
+    $query->bind_param('ssss', $user->id, $user->name, $user->email, $user->password);
     $query->execute();
     $isSuccess = $query->affected_rows > 0;
     $db->close();

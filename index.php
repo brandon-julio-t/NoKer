@@ -65,6 +65,7 @@
       case '/auth/register':
       case '/blogs/create':
       case '/blogs/update':
+      case '/migrate':
       case '/profile':
       case '/test':
         useRoute($path);
