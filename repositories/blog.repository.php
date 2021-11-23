@@ -22,6 +22,35 @@ class BlogRepository
     return $models;
   }
 
+  public static function getAllByKeyword(string $keyword)
+  {
+    $db = MySqlAdapter::get();
+
+    $query = $db->prepare("
+      select b.*
+      from blogs b
+        join users u on b.user_id = u.id
+      where title like '%?%'
+        or content like '%?%'
+        or u.name like '%?%'
+        or u.email like '%?%'
+      order by created_at desc, title desc
+    ");
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+
+    while ($obj = $result->fetch_object()) {
+      $model = Blog::fromStdClass($obj);
+      $model->user = UserRepository::getOneById($model->user_id);
+      $models[] = $model;
+    }
+
+    $db->close();
+    return $models;
+  }
+
   public static function getAllApproved()
   {
     $db = MySqlAdapter::get();
@@ -64,6 +93,45 @@ class BlogRepository
 
     $result = $db->query('select count(*) as count from blogs where status = \'approved\'');
     $totalCount = $result->fetch_object()->count;
+
+    $db->close();
+    return [$models, $totalCount];
+  }
+
+  public static function getAllApprovedPaginatedByKeyword(int $page = 1, string $keyword)
+  {
+    $db = MySqlAdapter::get();
+
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+    $keyword = "%$keyword%";
+
+    $query = $db->prepare("
+      select b.*
+      from blogs b
+        join users u on b.user_id = u.id
+      where status = 'approved'
+        and (title like ?
+        or content like ?
+        or u.name like ?
+        or u.email like ?)
+      order by created_at desc, title desc
+      limit ?
+      offset ?
+    ");
+    $query->bind_param('ssssii', $keyword, $keyword, $keyword, $keyword, $limit, $offset);
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+
+    while ($obj = $result->fetch_object()) {
+      $model = Blog::fromStdClass($obj);
+      $model->user = UserRepository::getOneById($model->user_id);
+      $models[] = $model;
+    }
+
+    $totalCount = count($models);
 
     $db->close();
     return [$models, $totalCount];

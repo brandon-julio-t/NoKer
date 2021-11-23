@@ -19,10 +19,10 @@ function useActiveStyle(string|array $pathToMatch)
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav mb-2 mb-lg-0">
         <?php if ($user) { ?>
           <li class="nav-item me-auto">
-            <a class="nav-link <?= useActiveStyle(['/', '/home']) ?>" aria-current="page" href="/">Home</a>
+            <a class="nav-link <?= useActiveStyle(['/', '/home']) ?>" aria-current="page" href="/home">Home</a>
           </li>
         <?php } ?>
         <?php if ($user && $user->email === 'admin@email.com') { ?>
@@ -39,7 +39,12 @@ function useActiveStyle(string|array $pathToMatch)
         <?php } ?>
       </ul>
 
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <form action="/home" class="d-flex flex-fill mx-3">
+        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-dark" type="submit">Search</button>
+      </form>
+
+      <ul class="navbar-nav mb-2 mb-lg-0">
         <?php if (!$user) { ?>
           <li class="nav-item">
             <a class="nav-link <?= useActiveStyle('/auth/login') ?>" href="/auth/login">Login</a>

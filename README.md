@@ -14,13 +14,13 @@ PHP BP case for NAR22-1
   2. admin review blog yg ada di blog approval queue
   3. kalau reject brrti ga bisa di-view public, kalau approved berarti bisa di-view public
 - pages
-  [ ] homepage (all blogs w/ infinite scrolling)
+  [x] homepage (all blogs w/ infinite scrolling)
   [x] view detail blog (di sini creator bisa ke update/delete blog)
   [x] create blog
   [x] update blog (creator only)
   [ ] search blog (paginated)
-  [ ] manage users (paginated, admin only)
-  [ ] manage blog queues (paginated, admin only)
+  [x] manage users (paginated, admin only)
+  [x] manage blog queues (paginated, admin only)
 - security
   [x] hashing (login & register)
   [x] sqli (semua form)

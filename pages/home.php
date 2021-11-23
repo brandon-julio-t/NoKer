@@ -60,7 +60,7 @@
   };
 
   async function fetchBlogs() {
-    const resp = await fetch(`/api/home?page=${page}`);
+    const resp = await fetch(`/api/home?page=${page}&q=<?= urlencode(isset($_GET['q']) ? $_GET['q'] : '') ?>`);
     return await resp.json();
   }
 
