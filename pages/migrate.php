@@ -2,7 +2,7 @@
 
 $users = [];
 
-for ($i = 0; $i < 50; $i++) {
+for ($i = 0; $i < 100; $i++) {
   $user = new User(
     useUuid(),
     "User #$i",
@@ -13,7 +13,7 @@ for ($i = 0; $i < 50; $i++) {
   UserRepository::create($user);
 }
 
-for ($i = 0; $i < 50; $i++) {
+for ($i = 0; $i < 100; $i++) {
   $blog = new Blog(
     useUuid(),
     "Lorem Ipsum $i",

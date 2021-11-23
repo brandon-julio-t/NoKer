@@ -18,6 +18,28 @@ class UserRepository
     return $models;
   }
 
+  public static function getAllPaginated(int $page = 1)
+  {
+    $db = MySqlAdapter::get();
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+    $query = $db->prepare('select * from users order by name limit ? offset ?');
+    $query->bind_param('ii', $limit, $offset);
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+    while ($obj = $result->fetch_object()) {
+      $models[] = User::fromStdClass($obj);
+    }
+
+    $result = $db->query('select count(*) as count from users');
+    $totalUsers = $result->fetch_object()->count;
+
+    $db->close();
+    return [$models, $totalUsers];
+  }
+
   public static function getOneById(string $id)
   {
     $db = MySqlAdapter::get();

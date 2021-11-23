@@ -29,8 +29,9 @@ if ($method === 'POST') {
   }
 }
 
-      $users = UserRepository::getAll();
-
+$currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+[$users, $totalUsers] = UserRepository::getAllPaginated($currentPage);
+$maxPage = $totalUsers / 10;
 
 useFlashAlert();
 
@@ -67,4 +68,29 @@ useFlashAlert();
       <?php } ?>
     </tbody>
   </table>
+  <div aria-label="Page navigation example" class="d-flex justify-content-center">
+    <ul class="pagination">
+      <li class="page-item <?= $currentPage <= 1 ? 'disabled' : '' ?>">
+        <a class="page-link" href="/admin/manage-users?page=1" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item <?= $currentPage <= 1 ? 'disabled' : '' ?>">
+        <a class="page-link" href="/admin/manage-users?page=<?= $currentPage - 1 ?>" aria-label="Previous">
+          <span aria-hidden="true">&lsaquo;</span>
+        </a>
+      </li>
+      <li class="page-item"><span class="page-link"><?= $currentPage ?> / <?= $maxPage ?></span></li>
+      <li class="page-item <?= $currentPage >= $maxPage ? 'disabled' : '' ?>">
+        <a class="page-link" href="/admin/manage-users?page=<?= $currentPage + 1 ?>" aria-label="Next">
+          <span aria-hidden="true">&rsaquo;</span>
+        </a>
+      </li>
+      <li class="page-item <?= $currentPage >= $maxPage ? 'disabled' : '' ?>">
+        <a class="page-link" href="/admin/manage-users?page=<?= $maxPage ?>" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>
