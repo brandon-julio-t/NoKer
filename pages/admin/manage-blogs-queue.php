@@ -1,5 +1,7 @@
 <?php
 
+useAdmin();
+
 $method = useHttpMethod();
 if ($method === 'POST') {
   useCheckCsrf();
