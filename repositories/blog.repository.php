@@ -6,7 +6,7 @@ class BlogRepository
   {
     $db = MySqlAdapter::get();
 
-    $query = $db->prepare('select * from blogs order by created_at desc');
+    $query = $db->prepare('select * from blogs order by created_at desc, title desc');
     $query->execute();
     $result = $query->get_result();
 
@@ -26,7 +26,7 @@ class BlogRepository
   {
     $db = MySqlAdapter::get();
 
-    $query = $db->prepare('select * from blogs where status = \'approved\' order by created_at desc');
+    $query = $db->prepare('select * from blogs where status = \'approved\' order by created_at desc, title desc');
     $query->execute();
     $result = $query->get_result();
 
@@ -46,7 +46,7 @@ class BlogRepository
   {
     $db = MySqlAdapter::get();
 
-    $query = $db->prepare('select * from blogs where status = \'unapproved\' order by created_at desc');
+    $query = $db->prepare('select * from blogs where status = \'unapproved\' order by created_at desc, title desc');
     $query->execute();
     $result = $query->get_result();
 

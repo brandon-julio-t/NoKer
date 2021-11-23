@@ -1,11 +1,11 @@
 <?php
 
-$id = '72dda89a-d1fb-4fcd-ba1b-ede0f2a4b037';
+$id = '6de529cc-0fef-4993-8e31-bdb5fdd857ac';
 $pw = Hash::make('iPhone7Plus');
 
 $db = MySqlAdapter::get();
 $q = $db->prepare('update users set password = ? where id = ?');
 $q->bind_param('ss', $pw, $id);
 $q->execute();
-$q->close();
+$db->close();
 echo $q->affected_rows;

@@ -5,7 +5,7 @@ class UserRepository
   public static function getAll()
   {
     $db = MySqlAdapter::get();
-    $query = $db->prepare('select * from users');
+    $query = $db->prepare('select * from users order by name');
     $query->execute();
     $result = $query->get_result();
 
@@ -58,12 +58,10 @@ class UserRepository
       update users set
         `name` = ?,
         `email` = ?,
-        `password` = ?,
         `blocked_at` = ?
       where `id` = ?
     ');
-    $hashed = Hash::make($user->password);
-    $query->bind_param('sssss', $user->name, $user->email, $hashed, $user->blocked_at, $user->id);
+    $query->bind_param('ssss', $user->name, $user->email, $user->blocked_at, $user->id);
     $query->execute();
     $isSuccess = $query->affected_rows > 0;
     $db->close();

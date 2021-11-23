@@ -26,6 +26,7 @@ class Auth
 
     $user = UserRepository::getOneByEmail($email);
     if (!$user) return false;
+    if ($user->blocked_at) return false;
 
     $isMatch = Hash::compare($password, $user->password);
     if (!$isMatch) return false;

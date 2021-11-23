@@ -1,10 +1,14 @@
 <?php
 
-function useCsrf()
+function useCsrf($regenerate)
 {
-  $token = bin2hex(random_bytes(32));
-  $_SESSION['csrf_token'] = $token;
-  return $token;
+  if ($regenerate) {
+    $token = bin2hex(random_bytes(32));
+    $_SESSION['csrf_token'] = $token;
+    return $token;
+  } else {
+    return $_SESSION['csrf_token'];
+  }
 }
 
 function useCheckCsrf()
@@ -16,8 +20,8 @@ function useCheckCsrf()
   }
 }
 
-function useCsrfInput()
+function useCsrfInput($regenerate = true)
 {
-  $token = useCsrf();
+  $token = useCsrf($regenerate);
   return "<input type='hidden' name='csrf-token' value='$token'>";
 }
