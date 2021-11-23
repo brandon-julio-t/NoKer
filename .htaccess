@@ -1,32 +1,32 @@
+# -------------------------
 # Prevent directory listing
+# -------------------------
 Options -Indexes
 
-# # Custom error messages
+# ---------------------
+# Custom error messages
+# ---------------------
 ErrorDocument 403 /errors/403.php
 ErrorDocument 404 /errors/404.php
 
-# Pretty URL
+# ----------------
+# Hide PHP Version
+# ----------------
+Header unset X-Powered-By
 
-# # Turn on rewrite feature
+# --------------------------------
+# Pretty URL (Inspired by Laravel)
+# --------------------------------
+
+# 1. Turn on rewrite feature
 RewriteEngine on
 
-# Redirect Trailing Slashes If Not A Folder...
+# 2. Redirect Trailing Slashes If Not A Folder...
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} (.+)/$
 RewriteRule ^ %1 [L,R=301]
 
-# Send Requests To Front Controller...
+# 3. Send Requests To Front Controller...
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [L]
-
-
-# # Is not directory
-# RewriteCond %{REQUEST_FILENAME} !-d
-
-# # If the request uri appended with ".php" is file and exists...
-# RewriteCond %{REQUEST_FILENAME}\.php -f
-
-# # Rewrite the request uri to request uri appended with ".php",
-# # hence essentially serving the php file
-# RewriteRule ^(.*)$ $1.php

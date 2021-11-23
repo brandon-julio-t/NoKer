@@ -18,7 +18,7 @@ PHP BP case for NAR22-1
   [x] view detail blog (di sini creator bisa ke update/delete blog)
   [x] create blog
   [x] update blog (creator only)
-  [ ] search blog (paginated)
+  [x] search blog (paginated)
   [x] manage users (paginated, admin only)
   [x] manage blog queues (paginated, admin only)
 - security
@@ -29,4 +29,4 @@ PHP BP case for NAR22-1
     [x] directory listing
     [x] custom error page
     [x] pretty url (/home.php jadi /home aja)
-  [ ] cors (ketika ajax)
+  [x] cors (ketika ajax)
