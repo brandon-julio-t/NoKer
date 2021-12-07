@@ -15,7 +15,6 @@ require_once './hooks/http-method.hook.php';
 require_once './hooks/must-image.hook.php';
 require_once './hooks/now.hook.php';
 require_once './hooks/pretty-date.hook.php';
-require_once './hooks/profile-picture.hook.php';
 require_once './hooks/uuid.hook.php';
 require_once './models/blog.model.php';
 require_once './models/user.model.php';
@@ -44,6 +43,12 @@ if (str_starts_with($path, '/api/')) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NoKer</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <!-- Alpine Plugins -->
+  <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Alpine Core -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
 <body style="overflow-x: hidden;">

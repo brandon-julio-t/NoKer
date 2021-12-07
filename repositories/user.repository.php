@@ -65,8 +65,27 @@ class UserRepository
   public static function create(User $user)
   {
     $db = MySqlAdapter::get();
-    $query = $db->prepare('insert into users (`id`, `name`, `email`, `password`) values (?, ?, ?, ?)');
-    $query->bind_param('ssss', $user->id, $user->name, $user->email, $user->password);
+    $query = $db->prepare('
+      insert into users (
+        `id`,
+        `name`,
+        `email`,
+        `password`,
+        `profile_picture`,
+        `balance`,
+        `is_premium`
+      )
+      values (?, ?, ?, ?, ?, ?, ?)
+    ');
+    $query->bind_param(
+      'sssssii',
+      $user->id,
+      $user->name,
+      $user->email,
+      $user->password,
+      $user->profile_picture,
+      $user->balance, $user->is_premium
+    );
     $query->execute();
     $isSuccess = $query->affected_rows > 0;
     $db->close();

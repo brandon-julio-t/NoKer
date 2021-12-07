@@ -3,12 +3,14 @@
 class User
 {
   public function __construct(
-    public string $id = '00000000-0000-0000-0000-000000000000',
-    public string $name = '',
-    public string $email = '',
-    public string $password = '',
-    public string $profile_picture = '',
-    public ?string $blocked_at = null,
+    public string $id,
+    public string $name,
+    public string $email,
+    public string $password,
+    public string $profile_picture,
+    public int $balance,
+    public bool $is_premium,
+    public ?string $blocked_at,
   ) {
   }
 
@@ -21,6 +23,8 @@ class User
       $obj->email,
       $obj->password,
       $obj->profile_picture,
+      $obj->balance,
+      $obj->is_premium,
       $obj->blocked_at
     );
   }

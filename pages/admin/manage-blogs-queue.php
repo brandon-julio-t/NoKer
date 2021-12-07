@@ -48,10 +48,10 @@ useFlashAlert();
         </thead>
         <tbody>
           <?php foreach ($unapprovedBlogs as $idx => $blog) { ?>
-            <tr>
+            <tr x-data @click="location.href = '/blogs?id=<?= $blog->id ?>'" style="cursor: pointer;">
               <td class="align-middle"><?= $idx + 1 ?></td>
-              <td class="align-middle"><?= $blog->title ?></td>
-              <td class="align-middle"><?= $blog->user->name ?></td>
+              <td class="align-middle"><?= htmlspecialchars($blog->title) ?></td>
+              <td class="align-middle"><?= htmlspecialchars($blog->user->name) ?></td>
               <td class="align-middle"><?= $blog->created_at ?></td>
               <td class="align-middle text-capitalize <?= $blog->status === 'unapproved' ? 'text-danger' : 'text-success' ?>">
                 <?= $blog->status ?>
@@ -112,10 +112,10 @@ useFlashAlert();
         </thead>
         <tbody>
           <?php foreach ($approvedBlogs as $idx => $blog) { ?>
-            <tr>
+            <tr x-data @click="location.href = '/blogs?id=<?= $blog->id ?>'" style="cursor: pointer;">
               <td class="align-middle"><?= $idx + 1 ?></td>
-              <td class="align-middle"><?= $blog->title ?></td>
-              <td class="align-middle"><?= $blog->user->name ?></td>
+              <td class="align-middle"><?= htmlspecialchars($blog->title) ?></td>
+              <td class="align-middle"><?= htmlspecialchars($blog->user->name) ?></td>
               <td class="align-middle"><?= $blog->created_at ?></td>
               <td class="align-middle text-capitalize <?= $blog->status === 'unapproved' ? 'text-danger' : 'text-success' ?>">
                 <?= $blog->status ?>
@@ -133,31 +133,31 @@ useFlashAlert();
         </tbody>
       </table>
       <?php if ($approvedBlogsMaxCount > 0) { ?>
-      <div aria-label="Page navigation example" class="d-flex justify-content-center">
-        <ul class="pagination">
-          <li class="page-item <?= $approvedBlogCurrentPage <= 1 ? 'disabled' : '' ?>">
-            <a class="page-link" href="/admin/manage-blogs-queue?p1=1&p2=1" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item <?= $approvedBlogCurrentPage <= 1 ? 'disabled' : '' ?>">
-            <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogCurrentPage - 1 ?>&p2=<?= $approvedBlogCurrentPage - 1 ?>" aria-label="Previous">
-              <span aria-hidden="true">&lsaquo;</span>
-            </a>
-          </li>
-          <li class="page-item"><span class="page-link"><?= $approvedBlogCurrentPage ?> / <?= $approvedBlogsMaxCount ?></span></li>
-          <li class="page-item <?= $approvedBlogCurrentPage >= $approvedBlogsMaxCount ? 'disabled' : '' ?>">
-            <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogCurrentPage + 1 ?>&p2=<?= $approvedBlogCurrentPage + 1 ?>" aria-label="Next">
-              <span aria-hidden="true">&rsaquo;</span>
-            </a>
-          </li>
-          <li class="page-item <?= $approvedBlogCurrentPage >= $approvedBlogsMaxCount ? 'disabled' : '' ?>">
-            <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogsMaxCount ?>&p2=<?= $approvedBlogsMaxCount ?>" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+        <div aria-label="Page navigation example" class="d-flex justify-content-center">
+          <ul class="pagination">
+            <li class="page-item <?= $approvedBlogCurrentPage <= 1 ? 'disabled' : '' ?>">
+              <a class="page-link" href="/admin/manage-blogs-queue?p1=1&p2=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item <?= $approvedBlogCurrentPage <= 1 ? 'disabled' : '' ?>">
+              <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogCurrentPage - 1 ?>&p2=<?= $approvedBlogCurrentPage - 1 ?>" aria-label="Previous">
+                <span aria-hidden="true">&lsaquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><span class="page-link"><?= $approvedBlogCurrentPage ?> / <?= $approvedBlogsMaxCount ?></span></li>
+            <li class="page-item <?= $approvedBlogCurrentPage >= $approvedBlogsMaxCount ? 'disabled' : '' ?>">
+              <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogCurrentPage + 1 ?>&p2=<?= $approvedBlogCurrentPage + 1 ?>" aria-label="Next">
+                <span aria-hidden="true">&rsaquo;</span>
+              </a>
+            </li>
+            <li class="page-item <?= $approvedBlogCurrentPage >= $approvedBlogsMaxCount ? 'disabled' : '' ?>">
+              <a class="page-link" href="/admin/manage-blogs-queue?p1=<?= $unapprovedBlogsMaxCount ?>&p2=<?= $approvedBlogsMaxCount ?>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </div>
       <?php } ?>
     </div>
   </div>

@@ -22,7 +22,7 @@ useFlashAlert();
 <div class="card shadow-sm">
   <div class="card-body">
     <div class="d-flex justify-content-between">
-      <h4 class="card-title"><?= $blog->title ?></h4>
+      <h4 class="card-title"><?= htmlspecialchars($blog->title) ?></h4>
       <?php if ($isCurrentUserTheCreator) { ?>
         <div class="row gx-2">
           <div class="col">
@@ -36,14 +36,14 @@ useFlashAlert();
       <?php } ?>
     </div>
     <small class="card-title">
-      <?= useProfilePicture($blog->user->profile_picture) ?>
-      <?= $blog->user->name ?>
+      <img src="<?= $blog->user->profile_picture ?>" alt="Profile picture" class="rounded-circle me-2" style="width: 2.5rem; height: 2.5rem;">
+      <?= htmlspecialchars($blog->user->name) ?>
       &bull;
       <?= usePrettyDate($blog->created_at); ?>
     </small>
   </div>
   <img src="<?= $blog->image_path ?>" alt="Blog image" class="w-full px-3">
   <div class="card-body">
-    <div class="card-text"><?= nl2br($blog->content) ?></div>
+    <div class="card-text" style="white-space: pre-wrap;"><?= htmlspecialchars($blog->content) ?></div>
   </div>
 </div>

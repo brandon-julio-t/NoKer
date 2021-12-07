@@ -71,6 +71,33 @@ class BlogRepository
     return $models;
   }
 
+  public static function getAllApprovedByUser(User $user)
+  {
+    $db = MySqlAdapter::get();
+
+    $query = $db->prepare('
+      select *
+      from blogs
+      where status = \'approved\'
+        and user_id = ?
+      order by created_at desc, title desc
+    ');
+    $query->bind_param('s', $user->id);
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+
+    while ($obj = $result->fetch_object()) {
+      $model = Blog::fromStdClass($obj);
+      $model->user = UserRepository::getOneById($model->user_id);
+      $models[] = $model;
+    }
+
+    $db->close();
+    return $models;
+  }
+
   public static function getAllApprovedPaginated(int $page = 1)
   {
     $db = MySqlAdapter::get();
@@ -98,11 +125,11 @@ class BlogRepository
     return [$models, $totalCount];
   }
 
-  public static function getAllApprovedPaginatedByKeyword(int $page = 1, string $keyword)
+  public static function getAllApprovedPaginatedByKeyword(int $page = 1, string $keyword = '')
   {
     $db = MySqlAdapter::get();
 
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
     $keyword = "%$keyword%";
 
@@ -124,7 +151,6 @@ class BlogRepository
     $result = $query->get_result();
 
     $models = [];
-
     while ($obj = $result->fetch_object()) {
       $model = Blog::fromStdClass($obj);
       $model->user = UserRepository::getOneById($model->user_id);

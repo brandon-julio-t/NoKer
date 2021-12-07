@@ -2,12 +2,43 @@
 
 $users = [];
 
+$dummies = [
+  new User(
+    useUuid(),
+    "Admin",
+    "admin@email.com",
+    Hash::make('admin'),
+    'https://i.pravatar.cc/300',
+    999999,
+    true,
+    null
+  ),
+  new User(
+    useUuid(),
+    "User",
+    "user@email.com",
+    Hash::make('user'),
+    'https://i.pravatar.cc/300',
+    999999,
+    false,
+    null
+  ),
+];
+
+foreach ($dummies as $dummy) {
+  UserRepository::create($dummy);
+}
+
 for ($i = 0; $i < 100; $i++) {
   $user = new User(
     useUuid(),
     "User #$i",
     "user$i@email.com",
-    Hash::make('password')
+    Hash::make('password'),
+    'https://i.pravatar.cc/300',
+    0,
+    false,
+    null
   );
   $users[] = $user;
   UserRepository::create($user);
@@ -25,7 +56,8 @@ Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce blandit vulp
     'https://picsum.photos/200',
     'unapproved',
     $users[array_rand($users)]->id,
-    useNow()
+    rand(0, 1),
+    useNow(),
   );
   BlogRepository::create($blog);
 }

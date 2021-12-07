@@ -19,7 +19,7 @@ DocumentRoot "D:\GitHub\NoKer"
 > Don't forget to restart your apache web server after editing the config.
 
 2. Create `noker` database.
-3. Copy paste and run all sqls located in `migrations` folder through `localhost/phpmyadmin`.
+3. Run `create.sql` in `localhost/phpmyadmin`.
 4. Visit `localhost/migrate` in browser to seed the database.
 5. Login as admin using `admin@email.com` and `admin` email password combination.
 6. Use the app.
@@ -35,6 +35,7 @@ DocumentRoot "D:\GitHub\NoKer"
   1. user bikin blog dan masuk ke blog approval queue
   2. admin review blog yg ada di blog approval queue
   3. kalau reject brrti ga bisa di-view public, kalau approved berarti bisa di-view public
+- ❌ transaksi read user blog. kalau udah baca blog premium 3x brrti kuotanya di bulan itu udah habis. bulan selanjutnya dapat kuota 3 free read lagi.
 - pages
   -  homepage (all blogs w/ infinite scrolling)
     - ✅ view detail blog (di sini creator bisa ke update/delete blog)
@@ -43,12 +44,24 @@ DocumentRoot "D:\GitHub\NoKer"
     - ✅ search blog (paginated)
     - ✅ manage users (paginated, admin only)
     - ✅ manage blog queues (paginated, admin only)
+    - manage profile
+      - ❌ account balance
+      - ❌ user's blogs
+      - ❌ user's friends
+    - ❌ timeline (friends post)
+    - explore
+      - ❌ latest
+      - ❌ hottest
+    - ❌ top-up balance
+    - ❌ upgrade premium account
+    - ❌ bookmark
   - security
     - ✅ hashing (login & register)
     - ✅ sqli (semua form)
-    - ✅csrf (semua form)
+    - ✅ csrf (semua form)
     - config htaccess
        - ✅ directory listing
        - ✅ custom error page
        - ✅ pretty url (/home.php jadi /home aja)
     - ✅ cors (ketika ajax)
+    - ✅ XSS

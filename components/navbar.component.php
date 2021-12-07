@@ -40,7 +40,7 @@ function useActiveStyle(string|array $pathToMatch)
       </ul>
 
       <form action="/home" class="d-flex flex-fill mx-3">
-        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search" value="<?= isset($_GET['q'])  ? $_GET['q'] : '' ?>">
         <button class="btn btn-outline-dark" type="submit">Search</button>
       </form>
 
@@ -58,6 +58,9 @@ function useActiveStyle(string|array $pathToMatch)
               <?= $user->name ?>
             </a>
             <ul class="dropdown-menu shadow" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item" href="/profile?id=<?= Auth::getUser()->id ?>">Profile</a>
+              </li>
               <li>
                 <a class="dropdown-item" href="/blogs/create">Create Blog</a>
               </li>
