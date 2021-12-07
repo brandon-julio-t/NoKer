@@ -35,12 +35,14 @@ useFlashAlert();
         </div>
       <?php } ?>
     </div>
-    <small class="card-title">
-      <img src="<?= $blog->user->profile_picture ?>" alt="Profile picture" class="rounded-circle me-2" style="width: 2.5rem; height: 2.5rem;">
-      <?= htmlspecialchars($blog->user->name) ?>
-      &bull;
-      <?= usePrettyDate($blog->created_at); ?>
-    </small>
+    <a href="/profile?id=<?= $blog->user_id ?>" class="text-decoration-none text-reset">
+      <small class="card-title">
+        <img src="<?= $blog->user->profile_picture ?>" alt="Profile picture" class="rounded-circle me-2" style="width: 2.5rem; height: 2.5rem;">
+        <?= htmlspecialchars($blog->user->name) ?>
+        &bull;
+        <?= usePrettyDate($blog->created_at); ?>
+      </small>
+    </a>
   </div>
   <img src="<?= $blog->image_path ?>" alt="Blog image" class="w-full px-3">
   <div class="card-body">

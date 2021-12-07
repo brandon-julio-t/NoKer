@@ -45,7 +45,7 @@ DocumentRoot "D:\GitHub\NoKer"
     - ✅ manage users (paginated, admin only)
     - ✅ manage blog queues (paginated, admin only)
     - manage profile
-      - ❌ account balance
+      - ✅ account balance
       - ❌ user's blogs
       - ❌ user's friends
     - ❌ timeline (friends post)

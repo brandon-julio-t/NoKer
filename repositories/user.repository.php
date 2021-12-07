@@ -62,6 +62,50 @@ class UserRepository
     return $model;
   }
 
+  public static function getAllFollowersByUser(User $user)
+  {
+    $db = MySqlAdapter::get();
+    $query = $db->prepare('
+      select *
+      from users u
+        join user_friends uf on u.id = uf.friender_id
+      where uf.friendee_id = ?
+    ');
+    $query->bind_param('s', $user->id);
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+    while ($obj = $result->fetch_object()) {
+      $models[] = User::fromStdClass($obj);
+    }
+
+    $db->close();
+    return $models;
+  }
+
+  public static function getAllFollowingsByUser(User $user)
+  {
+    $db = MySqlAdapter::get();
+    $query = $db->prepare('
+      select *
+      from users u
+        join user_friends uf on u.id = uf.friendee_id
+      where uf.friender_id = ?
+    ');
+    $query->bind_param('s', $user->id);
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+    while ($obj = $result->fetch_object()) {
+      $models[] = User::fromStdClass($obj);
+    }
+
+    $db->close();
+    return $models;
+  }
+
   public static function create(User $user)
   {
     $db = MySqlAdapter::get();

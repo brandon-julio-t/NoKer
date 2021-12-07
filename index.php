@@ -17,8 +17,10 @@ require_once './hooks/now.hook.php';
 require_once './hooks/pretty-date.hook.php';
 require_once './hooks/uuid.hook.php';
 require_once './models/blog.model.php';
+require_once './models/user_friend.model.php';
 require_once './models/user.model.php';
 require_once './repositories/blog.repository.php';
+require_once './repositories/user_friend.repository.php';
 require_once './repositories/user.repository.php';
 
 $path = $_SERVER['REQUEST_URI'];

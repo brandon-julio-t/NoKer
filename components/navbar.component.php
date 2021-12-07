@@ -62,6 +62,9 @@ function useActiveStyle(string|array $pathToMatch)
                 <a class="dropdown-item" href="/profile?id=<?= Auth::getUser()->id ?>">Profile</a>
               </li>
               <li>
+                <a class="dropdown-item" href="/top-up">Top-up Balance</a>
+              </li>
+              <li>
                 <a class="dropdown-item" href="/blogs/create">Create Blog</a>
               </li>
               <hr class="dropdown-divider">
