@@ -28,18 +28,20 @@ if (useHttpMethod() === 'POST') {
 $blogs = BlogRepository::getAllApprovedByUser($user);
 $followers = UserRepository::getAllFollowersByUser($user);
 $followings = UserRepository::getAllFollowingsByUser($user);
+
 $isLoggedIn = Auth::check();
 $isSelf = $isLoggedIn && $user->id === Auth::getUser()->id;
-
 $currentUserIsFollowing = count(array_filter($followers, fn (User $follower) => $isLoggedIn && $follower->id == Auth::getUser()->id)) > 0;
+
+useFlashAlert();
 
 ?>
 
 <div class="row">
   <div class="col">
-    <div class="card sticky-top" style="top: 4.5rem;">
+    <div class="card sticky-top mb-3" style="top: 4.5rem;">
       <div class="card-body">
-        <img src="<?= $user->profile_picture ?>" class="rounded-circle mx-auto w-100 mb-3" style="height: 250px;">
+        <img src="<?= $user->profile_picture ?>" class="rounded-circle mx-auto w-100 h-100 mb-3" style="max-height: 250px;">
         <h2 class="card-title text-center mb-3"><?= $user->name ?></h2>
         <?php if ($isSelf) { ?>
           <div class="card-text mb-1">Balance: <b><?= $user->balance ?></b></div>
@@ -66,8 +68,7 @@ $currentUserIsFollowing = count(array_filter($followers, fn (User $follower) => 
             <input type="hidden" name="action" value="follow">
             <button class="btn btn-primary">Follow</button>
           </form>
-        <?php } ?>
-        <?php if ($isLoggedIn && !$isSelf && $currentUserIsFollowing) { ?>
+        <?php } else if ($isLoggedIn && !$isSelf && $currentUserIsFollowing) { ?>
           <form action="" method="POST" class="d-grid mt-3">
             <?= useCsrfInput() ?>
             <input type="hidden" name="action" value="unfollow">

@@ -84,6 +84,7 @@ if (str_starts_with($path, '/api/')) {
       case '/migrate':
       case '/profile':
       case '/test':
+      case '/top-up':
         useRoute($path);
         break;
 

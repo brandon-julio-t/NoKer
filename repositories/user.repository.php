@@ -143,10 +143,22 @@ class UserRepository
       update users set
         `name` = ?,
         `email` = ?,
+        `profile_picture` = ?,
+        `balance` = ?,
+        `is_premium` = ?,
         `blocked_at` = ?
       where `id` = ?
     ');
-    $query->bind_param('ssss', $user->name, $user->email, $user->blocked_at, $user->id);
+    $query->bind_param(
+      'sssssss',
+      $user->name,
+      $user->email,
+      $user->profile_picture,
+      $user->balance,
+      $user->is_premium,
+      $user->blocked_at,
+      $user->id
+    );
     $query->execute();
     $isSuccess = $query->affected_rows > 0;
     $db->close();
