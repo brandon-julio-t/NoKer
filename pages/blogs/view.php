@@ -27,9 +27,11 @@ if ($isLoggedIn) {
   );
   $remainingPremiumBlogQuota = 3 - count($premiumBlogReadActivities);
   $isEligibleToRead = $remainingPremiumBlogQuota > 0;
-  if ($user->is_premium
+  if (
+    $user->is_premium
     || !$blog->is_premium
-    || $blog->user_id === $user->id) $isEligibleToRead = true;
+    || $blog->user_id === $user->id
+  ) $isEligibleToRead = true;
 
   if ($isEligibleToRead && $method === 'GET') {
     UserBlogActivityRepository::create(
@@ -142,7 +144,13 @@ useFlashAlert();
 <?php } else { ?>
   <div class="card">
     <div class="card-body">
-      <h2 class="card-title text-center">You have exceeded this month's premium blog quota. Please upgrade your account to continue reading.</h2>
+      <h2 class="card-title text-center">
+        <?php if ($isLoggedIn) { ?>
+          You have exceeded this month's premium blog quota. Please upgrade your account to continue reading.
+        <?php } else { ?>
+          Please log in to read premium blogs.
+        <?php } ?>
+      </h2>
     </div>
   </div>
 <?php } ?>

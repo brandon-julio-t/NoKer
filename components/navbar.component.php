@@ -20,9 +20,18 @@ function useActiveStyle(string|array $pathToMatch)
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item me-auto">
+          <a class="nav-link <?= useActiveStyle(['/', '/home']) ?>" aria-current="page" href="/home">Home</a>
+        </li>
         <?php if ($user) { ?>
           <li class="nav-item me-auto">
-            <a class="nav-link <?= useActiveStyle(['/', '/home']) ?>" aria-current="page" href="/home">Home</a>
+            <a class="nav-link <?= useActiveStyle('/timeline') ?>" aria-current="page" href="/home">Timeline</a>
+          </li>
+          <li class="nav-item me-auto">
+            <a class="nav-link <?= useActiveStyle('/explore/latest') ?>" aria-current="page" href="/home">Latest</a>
+          </li>
+          <li class="nav-item me-auto">
+            <a class="nav-link <?= useActiveStyle('/explore/hottest') ?>" aria-current="page" href="/home">Hottest</a>
           </li>
         <?php } ?>
         <?php if ($user && $user->email === 'admin@email.com') { ?>
