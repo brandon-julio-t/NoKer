@@ -15,7 +15,7 @@ function useFlashAlert(string $message = '', string $type = '')
 
   if ($flash) {
     echo '<div class="alert alert-' . $flash['type'] . '" role="alert">'
-      . $flash['message']
+      . htmlspecialchars($flash['message'])
       . '</div>';
   }
 }

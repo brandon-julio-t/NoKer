@@ -70,6 +70,7 @@ class UserRepository
       from users u
         join user_friends uf on u.id = uf.friender_id
       where uf.friendee_id = ?
+      order by u.name
     ');
     $query->bind_param('s', $user->id);
     $query->execute();
@@ -92,6 +93,7 @@ class UserRepository
       from users u
         join user_friends uf on u.id = uf.friendee_id
       where uf.friender_id = ?
+      order by u.name
     ');
     $query->bind_param('s', $user->id);
     $query->execute();

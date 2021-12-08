@@ -52,8 +52,8 @@ DocumentRoot "D:\GitHub\NoKer"
     - explore
       - ❌ latest
       - ❌ hottest
-    - ❌ top-up balance
-    - ❌ upgrade premium account
+    - ✅ top-up balance
+    - ✅ upgrade premium account
     - ❌ bookmark
   - security
     - ✅ hashing (login & register)

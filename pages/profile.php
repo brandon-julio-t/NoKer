@@ -1,5 +1,7 @@
 <?php
 
+useAuth();
+
 $user = UserRepository::getOneById($_GET['id']);
 
 if (useHttpMethod() === 'POST') {
@@ -46,6 +48,18 @@ if (useHttpMethod() === 'POST') {
         );
       }
     }
+  } else if ($action === 'upgrade-account') {
+    if ($user->balance - 399 < 0) {
+      useFlashAlert('Insufficient balance.', 'danger');
+    } else {
+      $user->balance -= 399;
+      $user->is_premium = true;
+      $isSuccess = UserRepository::update($user);
+      useFlashAlert(
+        $isSuccess ? 'Account upgraded successfully.' : 'An error occurred while upgrading account.',
+        $isSuccess ? 'success' : 'danger',
+      );
+    }
   }
 }
 
@@ -88,6 +102,13 @@ useFlashAlert();
               <?= $user->is_premium ? 'Premium' : 'Regular' ?>
             </span>
           </div>
+          <?php if ($isSelf && !$user->is_premium) { ?>
+            <form action="" method="POST">
+              <?= useCsrfInput() ?>
+              <input type="hidden" name="action" value="upgrade-account">
+              <button class="btn btn-primary">Upgrade to Premium (399)</button>
+            </form>
+          <?php } ?>
           <div class="card-text row row-cols-1 row-cols-sm-2 fw-bold">
             <div x-data @click="show = 'followers'" class="d-flex flex-column justify-content-center" style="cursor: pointer;">
               <span class="text-center">Followers</span>

@@ -28,6 +28,7 @@ $dummies = [
 foreach ($dummies as $dummy) {
   UserRepository::create($dummy);
   $users[] = $dummy;
+  echo "seeding {$dummy->name}<br>";
 }
 
 for ($i = 0; $i < 100; $i++) {
@@ -43,7 +44,10 @@ for ($i = 0; $i < 100; $i++) {
   );
   $users[] = $user;
   UserRepository::create($user);
+  echo "seeding {$user->name}<br>";
 }
+
+$blogs = [];
 
 for ($i = 0; $i < 100; $i++) {
   $blog = new Blog(
@@ -60,7 +64,9 @@ Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce blandit vulp
     rand(0, 1),
     useNow(),
   );
+  $blogs[] = $blog;
   BlogRepository::create($blog);
+  echo "seeding {$blog->title}<br>";
 }
 
 foreach ($users as $friender) {
@@ -72,8 +78,24 @@ foreach ($users as $friender) {
           $friendee->id
         )
       );
+      echo "seeding friendship {$friender->name} => {$friedee->name}<br>";
     }
   }
 }
 
-echo 'migration success';
+foreach ($users as $user) {
+  foreach ($blogs as $blog) {
+    if (rand(0, 1) && $blog->status === 'approved') {
+      BookmarkRepository::create(
+        new Bookmark(
+          $blog->id,
+          $user->id,
+          useNow(),
+        )
+      );
+      echo "seeding bookmark {$user->name} => {$blog->title}<br>";
+    }
+  }
+}
+
+echo 'seeding success';

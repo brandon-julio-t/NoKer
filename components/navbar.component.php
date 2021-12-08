@@ -65,11 +65,14 @@ function useActiveStyle(string|array $pathToMatch)
                 <a class="dropdown-item" href="/top-up">Top-up Balance</a>
               </li>
               <li>
+                <a class="dropdown-item" href="/bookmarks">My Bookmarks</a>
+              </li>
+              <li>
                 <a class="dropdown-item" href="/blogs/create">Create Blog</a>
               </li>
               <?php if (Auth::check() && Auth::getUser()->email === 'admin@email.com') { ?>
                 <li>
-                  <a class="dropdown-item" href="/migrate">Migrate DB</a>
+                  <a class="dropdown-item" href="/seed">Seed DB</a>
                 </li>
               <?php } ?>
               <hr class="dropdown-divider">

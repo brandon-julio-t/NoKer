@@ -39,7 +39,7 @@
     </svg>
   </div>
 
-  <h3 x-cloak x-transition x-show="!isLoading && blogs.length === 0" class="text-center w-100">
+  <h3 x-cloak x-transition x-show="!isLoading && blogs.length === 0" class="text-center w-100 mt-3">
     No Blogs...
   </h3>
 

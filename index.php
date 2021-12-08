@@ -17,9 +17,13 @@ require_once './hooks/now.hook.php';
 require_once './hooks/pretty-date.hook.php';
 require_once './hooks/uuid.hook.php';
 require_once './models/blog.model.php';
+require_once './models/bookmark.model.php';
+require_once './models/user_blog_activity.model.php';
 require_once './models/user_friend.model.php';
 require_once './models/user.model.php';
 require_once './repositories/blog.repository.php';
+require_once './repositories/bookmark.repository.php';
+require_once './repositories/user_blog_activity.repository.php';
 require_once './repositories/user_friend.repository.php';
 require_once './repositories/user.repository.php';
 
@@ -51,6 +55,8 @@ if (str_starts_with($path, '/api/')) {
 
   <!-- Alpine Core -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 
 <body style="overflow-x: hidden;">
@@ -81,8 +87,9 @@ if (str_starts_with($path, '/api/')) {
       case '/auth/register':
       case '/blogs/create':
       case '/blogs/update':
-      case '/migrate':
+      case '/bookmarks':
       case '/profile':
+      case '/seed':
       case '/test':
       case '/top-up':
         useRoute($path);

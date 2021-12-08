@@ -6,6 +6,8 @@ class Bookmark
     public string $blog_id,
     public string $user_id,
     public string $created_at,
+    public ?Blog $blog = null,
+    public ?User $user = null,
   ) {
   }
 
