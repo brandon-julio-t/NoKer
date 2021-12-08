@@ -32,7 +32,7 @@ useFlashAlert();
 
 ?>
 
-<div class="row row-cols-1-row-cols-md-2">
+<div class="row row-cols-1 row-cols-lg-2">
   <div class="col">
     <h2>Unapproved Blogs</h2>
     <div class="table-responsive">
@@ -42,6 +42,7 @@ useFlashAlert();
             <th scope="col">#</th>
             <th scope="col">Title</th>
             <th scope="col">Creator</th>
+            <th scope="col">Level</th>
             <th scope="col">Created At</th>
             <th scope="col" colspan="2">Status</th>
           </tr>
@@ -52,6 +53,13 @@ useFlashAlert();
               <td class="align-middle"><?= $idx + 1 ?></td>
               <td class="align-middle"><?= htmlspecialchars($blog->title) ?></td>
               <td class="align-middle"><?= htmlspecialchars($blog->user->name) ?></td>
+              <td class="align-middle">
+                <?php if ($blog->is_premium) { ?>
+                  <span class="badge bg-primary">Premium</span>
+                <?php } else { ?>
+                  <span class="badge bg-secondary">Reguler</span>
+                <?php } ?>
+              </td>
               <td class="align-middle"><?= $blog->created_at ?></td>
               <td class="align-middle text-capitalize <?= $blog->status === 'unapproved' ? 'text-danger' : 'text-success' ?>">
                 <?= $blog->status ?>
@@ -106,6 +114,7 @@ useFlashAlert();
             <th scope="col">#</th>
             <th scope="col">Title</th>
             <th scope="col">Creator</th>
+            <th scope="col">Level</th>
             <th scope="col">Created At</th>
             <th scope="col" colspan="2">Status</th>
           </tr>
@@ -116,6 +125,13 @@ useFlashAlert();
               <td class="align-middle"><?= $idx + 1 ?></td>
               <td class="align-middle"><?= htmlspecialchars($blog->title) ?></td>
               <td class="align-middle"><?= htmlspecialchars($blog->user->name) ?></td>
+              <td class="align-middle">
+                <?php if ($blog->is_premium) { ?>
+                  <span class="badge bg-primary">Premium</span>
+                <?php } else { ?>
+                  <span class="badge bg-secondary">Reguler</span>
+                <?php } ?>
+              </td>
               <td class="align-middle"><?= $blog->created_at ?></td>
               <td class="align-middle text-capitalize <?= $blog->status === 'unapproved' ? 'text-danger' : 'text-success' ?>">
                 <?= $blog->status ?>

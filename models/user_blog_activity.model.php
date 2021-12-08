@@ -8,6 +8,8 @@ class UserBlogActivity
     public string $user_id,
     public string $blog_id,
     public string $created_at,
+    public ?User $user = null,
+    public ?Blog $blog = null,
   ) {
   }
 

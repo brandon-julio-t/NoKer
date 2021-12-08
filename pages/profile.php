@@ -103,7 +103,7 @@ useFlashAlert();
             </span>
           </div>
           <?php if ($isSelf && !$user->is_premium) { ?>
-            <form action="" method="POST">
+            <form action="" method="POST" class="d-grid mb-3">
               <?= useCsrfInput() ?>
               <input type="hidden" name="action" value="upgrade-account">
               <button class="btn btn-primary">Upgrade to Premium (399)</button>
@@ -143,6 +143,9 @@ useFlashAlert();
               <div class="card shadow-sm">
                 <img src="<?= $blog->image_path ?>" class="card-img-top" alt="Blog image" style="max-height: 150px; object-fit: cover;">
                 <div class="card-body">
+                  <?php if ($blog->is_premium) { ?>
+                    <span class="badge bg-primary mb-3">Premium</span>
+                  <?php } ?>
                   <h5 class="card-title"><?= htmlspecialchars($blog->title) ?></h5>
                   <p class="card-text"><?= htmlspecialchars($blog->truncatedContent()) ?></p>
                   <small class="card-text">

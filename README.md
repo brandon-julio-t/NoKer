@@ -35,7 +35,7 @@ DocumentRoot "D:\GitHub\NoKer"
   1. user bikin blog dan masuk ke blog approval queue
   2. admin review blog yg ada di blog approval queue
   3. kalau reject brrti ga bisa di-view public, kalau approved berarti bisa di-view public
-- ❌ transaksi read user blog. kalau udah baca blog premium 3x brrti kuotanya di bulan itu udah habis. bulan selanjutnya dapat kuota 3 free read lagi.
+- ✅ transaksi read user blog. kalau udah baca blog premium 3x brrti kuotanya di bulan itu udah habis. bulan selanjutnya dapat kuota 3 free read lagi.
 - pages
   -  homepage (all blogs w/ infinite scrolling)
     - ✅ view detail blog (di sini creator bisa ke update/delete blog)
@@ -46,15 +46,15 @@ DocumentRoot "D:\GitHub\NoKer"
     - ✅ manage blog queues (paginated, admin only)
     - manage profile
       - ✅ account balance
-      - ❌ user's blogs
-      - ❌ user's friends
+      - ✅ user's blogs
+      - ✅ user's friends
     - ❌ timeline (friends post)
     - explore
       - ❌ latest
       - ❌ hottest
     - ✅ top-up balance
     - ✅ upgrade premium account
-    - ❌ bookmark
+    - ✅ bookmark
   - security
     - ✅ hashing (login & register)
     - ✅ sqli (semua form)

@@ -3,14 +3,11 @@
 $blog = BlogRepository::getOneById($_GET['id']);
 $isLoggedIn = Auth::check();
 $user = Auth::getUser();
-$bookmarks = $isLoggedIn ? BookmarkRepository::getAllByUser($user)  : [];
+$bookmarks = [];
+$isEligibleToRead = !$blog->is_premium;
+$remainingPremiumBlogQuota = 0;
 
-// useDebug(array_filter(
-//   $bookmarks,
-//   fn ($bookmark) => $bookmark->blog->id === $blog->id
-// ));
-
-$isCurrentUserTheCreator = $user ? $user->id === $blog->user->id : false;
+$isCurrentUserTheCreator = $isLoggedIn ? $user->id === $blog->user->id : false;
 $isBookmarked = count(
   array_filter(
     $bookmarks,
@@ -19,6 +16,34 @@ $isBookmarked = count(
 ) > 0;
 
 $method = useHttpMethod();
+
+if ($isLoggedIn) {
+  $bookmarks = BookmarkRepository::getAllByUser($user);
+
+  $activities = UserBlogActivityRepository::getAllByUser($user);
+  $premiumBlogReadActivities = array_filter(
+    $activities,
+    fn (UserBlogActivity $activity) => $activity->blog->is_premium
+  );
+  $remainingPremiumBlogQuota = 3 - count($premiumBlogReadActivities);
+  $isEligibleToRead = $remainingPremiumBlogQuota > 0;
+  if ($user->is_premium
+    || !$blog->is_premium
+    || $blog->user_id === $user->id) $isEligibleToRead = true;
+
+  if ($isEligibleToRead && $method === 'GET') {
+    UserBlogActivityRepository::create(
+      new UserBlogActivity(
+        useUuid(),
+        'view',
+        $user->id,
+        $blog->id,
+        useNow(),
+      )
+    );
+  }
+}
+
 if ($method === 'POST') {
   useCheckCsrf();
 
@@ -63,15 +88,18 @@ useFlashAlert();
 
 ?>
 
-<div class="card shadow-sm">
-  <div class="card-body">
-    <div class="d-flex justify-content-between">
-      <h4 class="card-title"><?= htmlspecialchars($blog->title) ?></h4>
+<?php if ($isEligibleToRead) { ?>
+  <?php if ($isLoggedIn && $blog->is_premium && !$user->is_premium && $blog->user_id !== $user->id) { ?>
+    <div class="alert alert-warning" role="alert">
+      You can read <?= $remainingPremiumBlogQuota - 1 ?> premium blogs left.
+    </div>
+  <?php } ?>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
       <?php if ($isCurrentUserTheCreator) { ?>
-        <div class="row gx-2">
-          <div class="col">
-            <a href="/blogs/update?id=<?= $blog->id ?>" class="btn btn-dark">Update</a>
-          </div>
+        <div class="d-flex mb-3">
+          <a href="/blogs/update?id=<?= $blog->id ?>" class="btn btn-dark me-1">Update</a>
           <form method="POST" class="col">
             <?= useCsrfInput(false) ?>
             <input type="hidden" name="_method" value="DELETE">
@@ -79,28 +107,42 @@ useFlashAlert();
           </form>
         </div>
       <?php } ?>
-      <form x-data @click="$el.submit()" action="" method="POST" style="cursor: pointer;">
-        <?= useCsrfInput(false) ?>
-        <?php if ($isLoggedIn && $isBookmarked) { ?>
-          <input type="hidden" name="action" value="unbookmark">
-          <i class="bi bi-bookmark-fill"></i>
-        <?php } else if ($isLoggedIn && !$isBookmarked) { ?>
-          <input type="hidden" name="action" value="bookmark">
-          <i class="bi bi-bookmark"></i>
-        <?php } ?>
-      </form>
+      <div class="d-flex justify-content-between">
+        <h4 class="card-title">
+          <?= htmlspecialchars($blog->title) ?>
+          <?php if ($blog->is_premium) { ?>
+            <span class="badge bg-primary">Premium</span>
+          <?php } ?>
+        </h4>
+        <form x-data @click="$el.submit()" action="" method="POST" style="cursor: pointer;">
+          <?= useCsrfInput(false) ?>
+          <?php if ($isLoggedIn && $isBookmarked) { ?>
+            <input type="hidden" name="action" value="unbookmark">
+            <i class="bi bi-bookmark-fill"></i>
+          <?php } else if ($isLoggedIn && !$isBookmarked) { ?>
+            <input type="hidden" name="action" value="bookmark">
+            <i class="bi bi-bookmark"></i>
+          <?php } ?>
+        </form>
+      </div>
+      <a href="/profile?id=<?= $blog->user_id ?>" class="text-decoration-none text-reset">
+        <small class="card-title">
+          <img src="<?= $blog->user->profile_picture ?>" alt="Profile picture" class="rounded-circle me-2" style="width: 2.5rem; height: 2.5rem;">
+          <?= htmlspecialchars($blog->user->name) ?>
+          &bull;
+          <?= usePrettyDate($blog->created_at); ?>
+        </small>
+      </a>
     </div>
-    <a href="/profile?id=<?= $blog->user_id ?>" class="text-decoration-none text-reset">
-      <small class="card-title">
-        <img src="<?= $blog->user->profile_picture ?>" alt="Profile picture" class="rounded-circle me-2" style="width: 2.5rem; height: 2.5rem;">
-        <?= htmlspecialchars($blog->user->name) ?>
-        &bull;
-        <?= usePrettyDate($blog->created_at); ?>
-      </small>
-    </a>
+    <img src="<?= $blog->image_path ?>" alt="Blog image" class="w-full px-3">
+    <div class="card-body">
+      <div class="card-text" style="white-space: pre-wrap;"><?= htmlspecialchars($blog->content) ?></div>
+    </div>
   </div>
-  <img src="<?= $blog->image_path ?>" alt="Blog image" class="w-full px-3">
-  <div class="card-body">
-    <div class="card-text" style="white-space: pre-wrap;"><?= htmlspecialchars($blog->content) ?></div>
+<?php } else { ?>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title text-center">You have exceeded this month's premium blog quota. Please upgrade your account to continue reading.</h2>
+    </div>
   </div>
-</div>
+<?php } ?>

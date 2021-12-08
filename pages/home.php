@@ -18,6 +18,7 @@
         <div x-data @click="location.href = `/blogs?id=${blog.id}`" class="card shadow-sm" style="cursor: pointer;">
           <img :src="blog.image_path" class="card-img-top" alt="Blog image" style="max-height: 150px; object-fit: cover;">
           <div class="card-body">
+            <span x-show="blog.is_premium" class="badge bg-primary mb-3">Premium</span>
             <h5 class="card-title" x-text="blog.title"></h5>
             <p class="card-text" x-text="blog.content"></p>
             <small class="card-text">
