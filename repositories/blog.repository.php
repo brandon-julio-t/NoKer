@@ -228,17 +228,28 @@ class BlogRepository
     $db = MySqlAdapter::get();
 
     $query = $db->prepare("
-      insert into blogs (`id`, `title`, `content`, `image_path`, `status`, `user_id`, `created_at`)
-      values (?, ?, ?, ?, ?, ?, now())
+      insert into blogs (
+        `id`,
+        `title`,
+        `content`,
+        `image_path`,
+        `status`,
+        `user_id`,
+        `is_premium`,
+        `created_at`
+      )
+      values (?, ?, ?, ?, ?, ?, ?, ?)
     ");
     $query->bind_param(
-      'ssssss',
+      'ssssssis',
       $blog->id,
       $blog->title,
       $blog->content,
       $blog->image_path,
       $blog->status,
-      $blog->user_id
+      $blog->user_id,
+      $blog->is_premium,
+      $blog->created_at,
     );
     $query->execute();
 

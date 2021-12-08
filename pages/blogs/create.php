@@ -26,6 +26,7 @@ if ($method === 'POST') {
         $path,
         'unapproved',
         Auth::getUser()->id,
+        isset($_POST['is_premium']),
         useNow()
       );
       $isCreated = BlogRepository::create($blog);
@@ -47,10 +48,16 @@ useFlashAlert();
     <h4 class="card-title">Create Blog</h4>
 
     <form action="" method="POST" enctype="multipart/form-data" class="d-grid gap-2">
-      <?= useCsrfInput() ?>
+      <?= useCsrfInput(false) ?>
       <input type="text" name="title" placeholder="Title" class="form-control" required>
       <textarea name="content" rows="10" class="form-control" placeholder="Content..." required></textarea>
       <input type="file" name="image" placeholder="Image" class="form-control form-control-sm" required>
+      <div class="form-check">
+        <input type="checkbox" name="is_premium" class="form-check-input" id="is_premium">
+        <label class="form-check-label" for="is_premium">
+          Premium
+        </label>
+      </div>
       <div class="d-grid">
         <button class="btn btn-primary" type="submit">Create</button>
       </div>

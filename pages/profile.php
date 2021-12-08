@@ -78,7 +78,7 @@ useFlashAlert();
             <img src="<?= $user->profile_picture ?>" class="rounded-circle mx-auto w-100 mb-3" style="height: 250px; object-fit: cover;">
           <?php } ?>
 
-          <h2 class="card-title text-center mb-3"><?= $user->name ?></h2>
+          <h2 class="card-title text-center mb-3"><?= htmlspecialchars($user->name) ?></h2>
           <?php if ($isSelf) { ?>
             <div class="card-text mb-1">Balance: <b><?= $user->balance ?></b></div>
           <?php } ?>
@@ -122,10 +122,10 @@ useFlashAlert();
               <div class="card shadow-sm">
                 <img src="<?= $blog->image_path ?>" class="card-img-top" alt="Blog image" style="max-height: 150px; object-fit: cover;">
                 <div class="card-body">
-                  <h5 class="card-title"><?= $blog->title ?></h5>
-                  <p class="card-text"><?= $blog->truncatedContent() ?></p>
+                  <h5 class="card-title"><?= htmlspecialchars($blog->title) ?></h5>
+                  <p class="card-text"><?= htmlspecialchars($blog->truncatedContent()) ?></p>
                   <small class="card-text">
-                    <span><?= $blog->user->name ?></span>
+                    <span><?= htmlspecialchars($blog->user->name) ?></span>
                     &bull;
                     <span><?= usePrettyDate($blog->created_at) ?></span>
                   </small>
@@ -151,7 +151,7 @@ useFlashAlert();
               <div class="card-body">
                 <div class="card-text">
                   <img src="<?= $follower->profile_picture ?>" class="rounded-circle me-1" style="max-height: 32px; max-width: 32px;">
-                  <?= $follower->name ?>
+                  <?= htmlspecialchars($follower->name) ?>
                 </div>
               </div>
             </div>
@@ -173,7 +173,7 @@ useFlashAlert();
               <div class="card-body">
                 <div class="card-text">
                   <img src="<?= $follower->profile_picture ?>" class="rounded-circle me-1" style="max-height: 32px; max-width: 32px;">
-                  <?= $follower->name ?>
+                  <?= htmlspecialchars($follower->name) ?>
                 </div>
               </div>
             </div>

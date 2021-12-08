@@ -13,7 +13,7 @@ if ($method === 'POST') {
   $blog->status = $action . 'd';
   $isUpdated = BlogRepository::update($blog);
   if ($isUpdated) {
-    useFlashAlert('Blog <b>' . $blog->title . '</b> ' . $action . 'd successfully.', 'success');
+    useFlashAlert('Blog <b>' . htmlspecialchars($blog->title) . '</b> ' . $action . 'd successfully.', 'success');
   } else {
     useFlashAlert('An error occurred. Please try again.', 'danger');
   }
