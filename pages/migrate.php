@@ -27,6 +27,7 @@ $dummies = [
 
 foreach ($dummies as $dummy) {
   UserRepository::create($dummy);
+  $users[] = $dummy;
 }
 
 for ($i = 0; $i < 100; $i++) {
@@ -37,7 +38,7 @@ for ($i = 0; $i < 100; $i++) {
     Hash::make('password'),
     'https://i.pravatar.cc/300',
     0,
-    false,
+    rand(0, 1),
     null
   );
   $users[] = $user;
@@ -54,12 +55,25 @@ Aenean porta magna non eros consectetur consequat. Vestibulum vel ante eros. Sed
 Mauris id ligula ut nisl ornare elementum. Pellentesque condimentum efficitur lorem eget feugiat. Sed nec nisl et ipsum finibus egestas vel sit amet elit. Pellentesque lobortis diam sed laoreet pulvinar. Etiam vitae lacus ut tortor vehicula tempus. Pellentesque dignissim, enim vel hendrerit imperdiet, tortor quam fermentum purus, pulvinar sollicitudin odio lectus id magna. Cras in ante felis. Cras interdum elit quis scelerisque convallis. Donec vel enim iaculis, dapibus nisl vitae, egestas libero. In tristique scelerisque dui.
 Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce blandit vulputate ornare. Curabitur dui leo, sollicitudin et purus ut, cursus lobortis arcu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sagittis sem vitae sem dapibus sodales. Fusce in justo eget libero laoreet fermentum. Aliquam erat volutpat.',
     'https://picsum.photos/200',
-    'unapproved',
+    rand(0, 1) ? 'approved' : 'unapproved',
     $users[array_rand($users)]->id,
     rand(0, 1),
     useNow(),
   );
   BlogRepository::create($blog);
+}
+
+foreach ($users as $friender) {
+  foreach ($users as $friendee) {
+    if (rand(0, 1)) {
+      UserFriendRepository::create(
+        new UserFriend(
+          $friender->id,
+          $friendee->id
+        )
+      );
+    }
+  }
 }
 
 echo 'migration success';

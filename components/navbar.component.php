@@ -67,6 +67,11 @@ function useActiveStyle(string|array $pathToMatch)
               <li>
                 <a class="dropdown-item" href="/blogs/create">Create Blog</a>
               </li>
+              <?php if (Auth::check() && Auth::getUser()->email === 'admin@email.com') { ?>
+                <li>
+                  <a class="dropdown-item" href="/migrate">Migrate DB</a>
+                </li>
+              <?php } ?>
               <hr class="dropdown-divider">
               <li>
                 <a class="dropdown-item" href="/auth/logout">Logout</a>
