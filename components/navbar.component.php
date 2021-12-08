@@ -25,13 +25,13 @@ function useActiveStyle(string|array $pathToMatch)
         </li>
         <?php if ($user) { ?>
           <li class="nav-item me-auto">
-            <a class="nav-link <?= useActiveStyle('/timeline') ?>" aria-current="page" href="/home">Timeline</a>
+            <a class="nav-link <?= useActiveStyle('/timeline') ?>" aria-current="page" href="/timeline">Timeline</a>
           </li>
           <li class="nav-item me-auto">
-            <a class="nav-link <?= useActiveStyle('/explore/latest') ?>" aria-current="page" href="/home">Latest</a>
+            <a class="nav-link <?= useActiveStyle('/explore/latest') ?>" aria-current="page" href="/explore/latest">Latest</a>
           </li>
           <li class="nav-item me-auto">
-            <a class="nav-link <?= useActiveStyle('/explore/hottest') ?>" aria-current="page" href="/home">Hottest</a>
+            <a class="nav-link <?= useActiveStyle('/explore/hottest') ?>" aria-current="page" href="/explore/hottest">Hottest</a>
           </li>
         <?php } ?>
         <?php if ($user && $user->email === 'admin@email.com') { ?>

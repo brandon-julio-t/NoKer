@@ -88,9 +88,12 @@ if (str_starts_with($path, '/api/')) {
       case '/blogs/create':
       case '/blogs/update':
       case '/bookmarks':
+      case '/explore/hottest':
+      case '/explore/latest':
       case '/profile':
       case '/seed':
       case '/test':
+      case '/timeline':
       case '/top-up':
         useRoute($path);
         break;
