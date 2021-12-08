@@ -10,19 +10,43 @@ if (useHttpMethod() === 'POST') {
   $friendeeId = $user->id;
   $model = new UserFriend($frienderId, $friendeeId, useNow());
 
-  $isSuccess = false;
   if ($action === 'follow') {
     $isSuccess = UserFriendRepository::create($model);
+    useFlashAlert(
+      $isSuccess
+        ? "Success $action <b>{$user->name}</b>"
+        : "An error occurred while $action <b>{$user->name}</b>",
+      $isSuccess ? 'success' : 'danger'
+    );
   } else if ($action === 'unfollow') {
     $isSuccess = UserFriendRepository::delete($model);
+    useFlashAlert(
+      $isSuccess
+        ? "Success $action <b>{$user->name}</b>"
+        : "An error occurred while $action <b>{$user->name}</b>",
+      $isSuccess ? 'success' : 'danger'
+    );
+  } else if ($action === 'change-profile-picture') {
+    $image = $_FILES['profile-picture'];
+    $isImage = useMustImage($image);
+    if (!$isImage) {
+      useFlashAlert('Please upload an image.', 'danger');
+    } else if ($image['size'] > 1000000) {
+      useFlashAlert('Image size must not exceed 1MB.', 'danger');
+    } else {
+      [$ok, $path] = Storage::save($image);
+      if (!$ok) {
+        useFlashAlert('Unable to upload image.', 'danger');
+      } else {
+        $user->profile_picture = $path;
+        $isSuccess = UserRepository::update($user);
+        useFlashAlert(
+          $isSuccess ? 'Profile picture updated successfully.' : 'An error occurred while updating profile picture.',
+          $isSuccess ? 'success' : 'danger',
+        );
+      }
+    }
   }
-
-  useFlashAlert(
-    $isSuccess
-      ? "Success $action <b>{$user->name}</b>"
-      : "An error occurred while $action <b>{$user->name}</b>",
-    $isSuccess ? 'success' : 'danger'
-  );
 }
 
 $blogs = BlogRepository::getAllApprovedByUser($user);
@@ -42,7 +66,18 @@ useFlashAlert();
     <div class="col">
       <div class="card shadow-sm sticky-top mb-3" style="top: 4.5rem;">
         <div class="card-body">
-          <img src="<?= $user->profile_picture ?>" class="rounded-circle mx-auto w-100 h-100 mb-3" style="max-height: 250px;">
+          <?php if ($isSelf) { ?>
+            <form id="change-profile-picture-form" action="" method="POST" class="d-none" enctype="multipart/form-data">
+              <?= useCsrfInput() ?>
+              <input type="hidden" name="action" value="change-profile-picture">
+              <input id="profile-picture-input" type="file" name="profile-picture" @change="document.querySelector('#change-profile-picture-form').submit()">
+            </form>
+
+            <img x-data @click="document.querySelector('#profile-picture-input').click()" src="<?= $user->profile_picture ?>" class="rounded-circle mx-auto w-100 mb-3" style="height: 250px; object-fit: cover; cursor: pointer;">
+          <?php } else { ?>
+            <img src="<?= $user->profile_picture ?>" class="rounded-circle mx-auto w-100 mb-3" style="height: 250px; object-fit: cover;">
+          <?php } ?>
+
           <h2 class="card-title text-center mb-3"><?= $user->name ?></h2>
           <?php if ($isSelf) { ?>
             <div class="card-text mb-1">Balance: <b><?= $user->balance ?></b></div>
