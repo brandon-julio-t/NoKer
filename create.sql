@@ -27,7 +27,7 @@ create table `blogs` (
   `user_id` varchar(255) not null,
   `created_at` datetime not null,
   `is_premium` boolean not null,
-  foreign key `blogs_fk_user` (`user_id`) references `users` (`id`)
+  foreign key `blogs_fk_user` (`user_id`) references `users` (`id`) on update cascade on delete cascade
 );
 
 create table `bookmarks` (
@@ -49,6 +49,6 @@ create table `user_blog_activities` (
   `user_id` varchar(255) not null,
   `blog_id` varchar(255) not null,
   `created_at` datetime not null,
-  foreign key `user_blog_activities_fk_user` (`user_id`) references `users` (`id`),
-  foreign key `user_blog_activities_fk_blog` (`blog_id`) references `blogs` (`id`)
+  foreign key `user_blog_activities_fk_user` (`user_id`) references `users` (`id`) on update cascade on delete cascade,
+  foreign key `user_blog_activities_fk_blog` (`blog_id`) references `blogs` (`id`) on update cascade on delete cascade
 );

@@ -86,6 +86,46 @@ class UserRepository
     return $models;
   }
 
+  public static function getAllFollowersByUserPaginated(User $user, int $page = 1)
+  {
+    $db = MySqlAdapter::get();
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+    $query = $db->prepare('
+      select u.*
+      from users u
+        join user_friends uf on u.id = uf.friender_id
+      where uf.friendee_id = ?
+        and u.id != ?
+      order by u.name
+      limit ?
+      offset ?
+    ');
+    $query->bind_param('ssii', $user->id, $user->id, $limit, $offset);
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+    while ($obj = $result->fetch_object()) {
+      $models[] = User::fromStdClass($obj);
+    }
+
+    $query = $db->prepare('
+      select count(*) as `count`
+      from users u
+        join user_friends uf on u.id = uf.friender_id
+      where uf.friendee_id = ?
+        and u.id != ?
+      order by u.name
+    ');
+    $query->bind_param('ss', $user->id, $user->id);
+    $query->execute();
+    $totalCount = $query->get_result()->fetch_object()->count;
+
+    $db->close();
+    return [$models, $totalCount];
+  }
+
   public static function getAllFollowingsByUser(User $user)
   {
     $db = MySqlAdapter::get();
@@ -108,6 +148,46 @@ class UserRepository
 
     $db->close();
     return $models;
+  }
+
+  public static function getAllFollowingsByUserPaginated(User $user, int $page = 1)
+  {
+    $db = MySqlAdapter::get();
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+    $query = $db->prepare('
+      select u.*
+      from users u
+        join user_friends uf on u.id = uf.friendee_id
+      where uf.friender_id = ?
+        and u.id != ?
+      order by u.name
+      limit ?
+      offset ?
+    ');
+    $query->bind_param('ssii', $user->id, $user->id, $limit, $offset);
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+    while ($obj = $result->fetch_object()) {
+      $models[] = User::fromStdClass($obj);
+    }
+
+    $query = $db->prepare('
+      select count(*) as `count`
+      from users u
+        join user_friends uf on u.id = uf.friendee_id
+      where uf.friender_id = ?
+        and u.id != ?
+      order by u.name
+    ');
+    $query->bind_param('ss', $user->id, $user->id);
+    $query->execute();
+    $totalCount = $query->get_result()->fetch_object()->count;
+
+    $db->close();
+    return [$models, $totalCount];
   }
 
   public static function create(User $user)

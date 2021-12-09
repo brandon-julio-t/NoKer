@@ -14,7 +14,16 @@ if ($method === 'POST') {
   if ($password !== $confirmPassword) {
     useFlashAlert('Password does not match.', 'danger');
   } else {
-    $user = new User(useUuid(), $name, $email, Hash::make($password));
+    $user = new User(
+      useUuid(),
+      $name,
+      $email,
+      Hash::make($password),
+      'https://i.pravatar.cc/300',
+      0,
+      false,
+      null
+    );
     $isCreated = UserRepository::create($user);
     if (!$isCreated) {
       useFlashAlert('An error occurred. Please try again.', 'danger');

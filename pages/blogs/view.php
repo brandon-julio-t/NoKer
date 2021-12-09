@@ -49,7 +49,7 @@ if ($isLoggedIn) {
 if ($method === 'POST') {
   useCheckCsrf();
 
-  if (isset($_POST['method']) && $_POST['_method'] === 'DELETE') {
+  if (isset($_POST['_method']) && $_POST['_method'] === 'DELETE') {
     $isDeleted = BlogRepository::delete($blog);
     if ($isDeleted) {
       useFlashAlert('Blog deleted successfully.', 'success');

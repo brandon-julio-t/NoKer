@@ -182,6 +182,90 @@ class BlogRepository
     return $models;
   }
 
+  public static function getAllApprovedByUserPaginated(User $user, int $page = 1)
+  {
+    $db = MySqlAdapter::get();
+
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+
+    $query = $db->prepare('
+      select *
+      from blogs
+      where status = \'approved\'
+        and user_id = ?
+      order by created_at desc, title desc
+      limit ?
+      offset ?
+    ');
+    $query->bind_param('sii', $user->id, $limit, $offset);
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+    while ($obj = $result->fetch_object()) {
+      $model = Blog::fromStdClass($obj);
+      $model->user = UserRepository::getOneById($model->user_id);
+      $models[] = $model;
+    }
+
+    $query = $db->prepare('
+      select count(*) as `count`
+      from blogs
+      where status = \'approved\'
+        and user_id = ?
+      order by created_at desc, title desc
+    ');
+    $query->bind_param('s', $user->id);
+    $query->execute();
+    $totalCount = $query->get_result()->fetch_object()->count;
+
+    $db->close();
+    return [$models, $totalCount];
+  }
+
+  public static function getAllUnapprovedByUserPaginated(User $user, int $page = 1)
+  {
+    $db = MySqlAdapter::get();
+
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+
+    $query = $db->prepare('
+      select *
+      from blogs
+      where status = \'unapproved\'
+        and user_id = ?
+      order by created_at desc, title desc
+      limit ?
+      offset ?
+    ');
+    $query->bind_param('sii', $user->id, $limit, $offset);
+    $query->execute();
+    $result = $query->get_result();
+
+    $models = [];
+    while ($obj = $result->fetch_object()) {
+      $model = Blog::fromStdClass($obj);
+      $model->user = UserRepository::getOneById($model->user_id);
+      $models[] = $model;
+    }
+
+    $query = $db->prepare('
+      select count(*) as `count`
+      from blogs
+      where status = \'unapproved\'
+        and user_id = ?
+      order by created_at desc, title desc
+    ');
+    $query->bind_param('s', $user->id);
+    $query->execute();
+    $totalCount = $query->get_result()->fetch_object()->count;
+
+    $db->close();
+    return [$models, $totalCount];
+  }
+
   public static function getAllApprovedPaginated(int $page = 1)
   {
     $db = MySqlAdapter::get();
@@ -387,7 +471,7 @@ class BlogRepository
   {
     $db = MySqlAdapter::get();
 
-    $query = $db->prepare("delete from blogs where id = ?");
+    $query = $db->prepare("delete from `blogs` where `id` = ?");
     $query->bind_param('s', $blog->id);
     $query->execute();
 

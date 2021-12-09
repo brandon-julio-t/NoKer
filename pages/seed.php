@@ -78,7 +78,7 @@ foreach ($users as $friender) {
           $friendee->id
         )
       );
-      echo "seeding friendship {$friender->name} => {$friedee->name}<br>";
+      echo "seeding friendship {$friender->name} => {$friendee->name}<br>";
     }
   }
 }

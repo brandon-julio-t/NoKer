@@ -24,6 +24,7 @@ if ($method === 'POST') {
       $blog->title = $_POST['title'];
       $blog->content = $_POST['content'];
       $blog->image_path = $path;
+      $blog->is_premium = isset($_POST['is_premium']);
 
       $isUpdated = BlogRepository::update($blog);
       if ($isUpdated) {
@@ -51,6 +52,12 @@ useFlashAlert();
       <div>
         <label class="fw-bold">Previous image</label>
         <img src="<?= $blog->image_path ?>" class="img-thumbnail d-block mx-auto w-100" alt="Previous image">
+      </div>
+      <div class="form-check">
+        <input type="checkbox" name="is_premium" class="form-check-input" id="is_premium" <?php if ($blog->is_premium) { ?> checked <?php } ?>>
+        <label class="form-check-label" for="is_premium">
+          Premium
+        </label>
       </div>
       <button class="btn btn-primary" type="submit">Update</button>
     </form>

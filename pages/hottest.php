@@ -8,7 +8,7 @@ useFlashAlert();
   page: 1,
   isLoading: false,
   totalLength: Infinity,
-  async fetchTimeline() {
+  async fetchHottest() {
     if (this.isLoading) return;
     this.isLoading = true;
     const response = await (await fetch(`/api/hottest?page=${this.page}`)).json();
@@ -50,5 +50,5 @@ useFlashAlert();
     No blogs yet.
   </h3>
 
-  <div x-show="blogs.length < totalLength" x-intersect="fetchTimeline()" style="height: 200px; width: 0;"></div>
+  <div x-show="blogs.length < totalLength" x-intersect="fetchHottest()" style="height: 200px; width: 0;"></div>
 </div>
