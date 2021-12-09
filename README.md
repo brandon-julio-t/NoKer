@@ -48,10 +48,10 @@ DocumentRoot "D:\GitHub\NoKer"
       - ✅ account balance
       - ✅ user's blogs
       - ✅ user's friends
-    - ❌ timeline (friends post)
+    - ✅ timeline (friends post)
     - explore
-      - ❌ latest
-      - ❌ hottest
+      - ✅ latest
+      - ✅ hottest
     - ✅ top-up balance
     - ✅ upgrade premium account
     - ✅ bookmark
