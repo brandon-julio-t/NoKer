@@ -28,10 +28,7 @@ function useActiveStyle(string|array $pathToMatch)
             <a class="nav-link <?= useActiveStyle('/timeline') ?>" aria-current="page" href="/timeline">Timeline</a>
           </li>
           <li class="nav-item me-auto">
-            <a class="nav-link <?= useActiveStyle('/explore/latest') ?>" aria-current="page" href="/explore/latest">Latest</a>
-          </li>
-          <li class="nav-item me-auto">
-            <a class="nav-link <?= useActiveStyle('/explore/hottest') ?>" aria-current="page" href="/explore/hottest">Hottest</a>
+            <a class="nav-link <?= useActiveStyle('/hottest') ?>" aria-current="page" href="/hottest">Hottest</a>
           </li>
         <?php } ?>
         <?php if ($user && $user->email === 'admin@email.com') { ?>

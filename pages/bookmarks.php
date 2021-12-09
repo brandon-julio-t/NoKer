@@ -19,24 +19,36 @@ useFlashAlert();
 
 ?>
 
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
-  <?php foreach ($bookmarks as $bookmark) { ?>
-    <div class="col">
-      <div x-data @click="location.href = '/blogs?id=<?= $bookmark->blog->id ?>'" class="card shadow-sm" style="cursor: pointer;">
-        <img src="<?= $bookmark->blog->image_path ?>" class="card-img-top" style="max-height: 150px; object-fit: cover;">
-        <div class="card-body">
-          <?php if ($bookmark->blog->is_premium) { ?>
-            <span class="badge bg-primary mb-3">Premium</span>
-          <?php } ?>
-          <h5 class="card-title"><?= htmlspecialchars($bookmark->blog->title) ?></h5>
-          <p class="card-text"><?= htmlspecialchars($bookmark->blog->truncatedContent()) ?></p>
-          <small class="card-text">
-            <span><?= htmlspecialchars($bookmark->blog->user->name) ?></span>
-            &bull;
-            <span><?= usePrettyDate($bookmark->blog->created_at) ?></span>
-          </small>
-        </div>
+<?php if (count($bookmarks) === 0) { ?>
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title text-center">
+          No bookmarks yet.
+        </h4>
       </div>
     </div>
-  <?php } ?>
-</div>
+  </div>
+<?php } else { ?>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+    <?php foreach ($bookmarks as $bookmark) { ?>
+      <div class="col">
+        <div x-data @click="location.href = '/blogs?id=<?= $bookmark->blog->id ?>'" class="card shadow-sm" style="cursor: pointer;">
+          <img src="<?= $bookmark->blog->image_path ?>" class="card-img-top" style="max-height: 150px; object-fit: cover;">
+          <div class="card-body">
+            <?php if ($bookmark->blog->is_premium) { ?>
+              <span class="badge bg-primary mb-3">Premium</span>
+            <?php } ?>
+            <h5 class="card-title"><?= htmlspecialchars($bookmark->blog->title) ?></h5>
+            <p class="card-text"><?= htmlspecialchars($bookmark->blog->truncatedContent()) ?></p>
+            <small class="card-text">
+              <span><?= htmlspecialchars($bookmark->blog->user->name) ?></span>
+              &bull;
+              <span><?= usePrettyDate($bookmark->blog->created_at) ?></span>
+            </small>
+          </div>
+        </div>
+      </div>
+    <?php } ?>
+  </div>
+<?php } ?>

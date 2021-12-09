@@ -136,29 +136,41 @@ useFlashAlert();
       </div>
     </div>
     <div class="col-9">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
-        <?php foreach ($blogs as $blog) { ?>
-          <div class="col">
-            <a href="/blogs?id=<?= $blog->id ?>" class="text-reset text-decoration-none">
-              <div class="card shadow-sm">
-                <img src="<?= $blog->image_path ?>" class="card-img-top" alt="Blog image" style="max-height: 150px; object-fit: cover;">
-                <div class="card-body">
-                  <?php if ($blog->is_premium) { ?>
-                    <span class="badge bg-primary mb-3">Premium</span>
-                  <?php } ?>
-                  <h5 class="card-title"><?= htmlspecialchars($blog->title) ?></h5>
-                  <p class="card-text"><?= htmlspecialchars($blog->truncatedContent()) ?></p>
-                  <small class="card-text">
-                    <span><?= htmlspecialchars($blog->user->name) ?></span>
-                    &bull;
-                    <span><?= usePrettyDate($blog->created_at) ?></span>
-                  </small>
-                </div>
-              </div>
-            </a>
+      <?php if (count($blogs) === 0) { ?>
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title text-center">
+                This user has not created a blog yet.
+              </h4>
+            </div>
           </div>
-        <?php } ?>
-      </div>
+        </div>
+      <?php } else { ?>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+          <?php foreach ($blogs as $blog) { ?>
+            <div class="col">
+              <a href="/blogs?id=<?= $blog->id ?>" class="text-reset text-decoration-none">
+                <div class="card shadow-sm">
+                  <img src="<?= $blog->image_path ?>" class="card-img-top" alt="Blog image" style="max-height: 150px; object-fit: cover;">
+                  <div class="card-body">
+                    <?php if ($blog->is_premium) { ?>
+                      <span class="badge bg-primary mb-3">Premium</span>
+                    <?php } ?>
+                    <h5 class="card-title"><?= htmlspecialchars($blog->title) ?></h5>
+                    <p class="card-text"><?= htmlspecialchars($blog->truncatedContent()) ?></p>
+                    <small class="card-text">
+                      <span><?= htmlspecialchars($blog->user->name) ?></span>
+                      &bull;
+                      <span><?= usePrettyDate($blog->created_at) ?></span>
+                    </small>
+                  </div>
+                </div>
+              </a>
+            </div>
+          <?php } ?>
+        </div>
+      <?php } ?>
     </div>
   </div>
 

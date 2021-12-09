@@ -1,14 +1,17 @@
-<?php useFlashAlert(); ?>
+<?php
+useAuth();
+useFlashAlert();
+?>
 
 <div x-data="{
   blogs: [],
-  isLoading: false,
   page: 1,
+  isLoading: false,
   totalLength: Infinity,
-  async fetchBlogs() {
+  async fetchTimeline() {
     if (this.isLoading) return;
     this.isLoading = true;
-    const response = await (await fetch(`/api/home?page=${this.page}&q=<?= urlencode(isset($_GET['q']) ? $_GET['q'] : '') ?>`)).json();
+    const response = await (await fetch(`/api/hottest?page=${this.page}`)).json();
     this.blogs = [...this.blogs, ...response.data];
     this.totalLength = response.totalCount;
     this.isLoading = false;
@@ -44,8 +47,8 @@
   </div>
 
   <h3 x-cloak x-transition x-show="!isLoading && blogs.length === 0" class="text-center w-100 mt-3">
-    No Blogs...
+    No blogs yet.
   </h3>
 
-  <div x-show="blogs.length < totalLength" x-intersect="fetchBlogs();" style="height: 200px; width: 0;"></div>
+  <div x-show="blogs.length < totalLength" x-intersect="fetchTimeline()" style="height: 200px; width: 0;"></div>
 </div>

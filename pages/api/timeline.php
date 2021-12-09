@@ -1,8 +1,11 @@
 <?php
 
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
-$q = isset($_GET['q']) ? $_GET['q'] : '';
-[$blogs, $totalCount] = BlogRepository::getAllApprovedPaginatedByKeyword($page, $q);
+
+$user = Auth::getUser();
+$followings = UserRepository::getAllFollowingsByUser($user);
+
+[$blogs, $totalCount] = BlogRepository::getAllApprovedByUsersPaginated($followings, $page);
 array_map(fn (Blog $blog) => $blog->content = $blog->truncatedContent(), $blogs);
 echo json_encode([
   'data' => $blogs,

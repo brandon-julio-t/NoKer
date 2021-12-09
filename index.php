@@ -31,11 +31,15 @@ $path = $_SERVER['REQUEST_URI'];
 $queryIdx = strpos($path, '?');
 if ($queryIdx)  $path = substr($path, 0, $queryIdx);
 
+if (!isset($_SESSION)) session_start();
+
 if (str_starts_with($path, '/api/')) {
   useApi();
   useRoute($path);
   return;
 }
+
+session_regenerate_id(true);
 
 ?>
 
@@ -56,16 +60,14 @@ if (str_starts_with($path, '/api/')) {
   <!-- Alpine Core -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </head>
 
 <body style="overflow-x: hidden;">
   <?php
-  if (!isset($_SESSION)) session_start();
-  session_regenerate_id(true);
-
   $user = Auth::getUser();
-
   require_once './components/navbar.component.php';
   ?>
 
@@ -88,8 +90,7 @@ if (str_starts_with($path, '/api/')) {
       case '/blogs/create':
       case '/blogs/update':
       case '/bookmarks':
-      case '/explore/hottest':
-      case '/explore/latest':
+      case '/hottest':
       case '/profile':
       case '/seed':
       case '/test':
@@ -115,8 +116,6 @@ if (str_starts_with($path, '/api/')) {
     }
     ?>
   </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 
 </html>
