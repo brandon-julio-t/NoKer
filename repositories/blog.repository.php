@@ -42,7 +42,7 @@ class BlogRepository
     ksort($blogs);
     $blogs = array_map(fn ($e) => array_values($e)[0], $blogs);
 
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
     return [
       array_slice($blogs, $offset, $limit),
@@ -74,7 +74,7 @@ class BlogRepository
   {
     $db = MySqlAdapter::get();
 
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
 
     $query = $db->prepare('
@@ -113,7 +113,7 @@ class BlogRepository
   {
     $db = MySqlAdapter::get();
 
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
 
     $query = $db->prepare('
@@ -186,7 +186,7 @@ class BlogRepository
   {
     $db = MySqlAdapter::get();
 
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
 
     $query = $db->prepare('
@@ -228,7 +228,7 @@ class BlogRepository
   {
     $db = MySqlAdapter::get();
 
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
 
     $query = $db->prepare('
@@ -270,7 +270,7 @@ class BlogRepository
   {
     $db = MySqlAdapter::get();
 
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
 
     $query = $db->prepare('select * from blogs where status = \'approved\' order by created_at desc, title desc limit ? offset ?');
@@ -297,7 +297,7 @@ class BlogRepository
   {
     $db = MySqlAdapter::get();
 
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
     $keyword = "%$keyword%";
 
@@ -347,7 +347,7 @@ class BlogRepository
   {
     $db = MySqlAdapter::get();
 
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
 
     $query = $db->prepare('select * from blogs where status = \'unapproved\' order by created_at desc, title desc limit ? offset ?');

@@ -21,7 +21,7 @@ class UserRepository
   public static function getAllPaginated(int $page = 1)
   {
     $db = MySqlAdapter::get();
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
     $query = $db->prepare('select * from users order by name limit ? offset ?');
     $query->bind_param('ii', $limit, $offset);
@@ -89,7 +89,7 @@ class UserRepository
   public static function getAllFollowersByUserPaginated(User $user, int $page = 1)
   {
     $db = MySqlAdapter::get();
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
     $query = $db->prepare('
       select u.*
@@ -153,7 +153,7 @@ class UserRepository
   public static function getAllFollowingsByUserPaginated(User $user, int $page = 1)
   {
     $db = MySqlAdapter::get();
-    $limit = 10;
+    $limit = 15;
     $offset = ($page - 1) * $limit;
     $query = $db->prepare('
       select u.*
