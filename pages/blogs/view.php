@@ -8,12 +8,6 @@ $isEligibleToRead = !$blog->is_premium;
 $remainingPremiumBlogQuota = 0;
 
 $isCurrentUserTheCreator = $isLoggedIn ? $user->id === $blog->user->id : false;
-$isBookmarked = count(
-  array_filter(
-    $bookmarks,
-    fn ($bookmark) => $bookmark->blog->id === $blog->id
-  )
-) > 0;
 
 $method = useHttpMethod();
 
@@ -46,6 +40,13 @@ if ($isLoggedIn) {
   }
 }
 
+$isBookmarked = count(
+  array_filter(
+    $bookmarks,
+    fn ($bookmark) => $bookmark->blog->id === $blog->id
+  )
+) > 0;
+
 if ($method === 'POST') {
   useCheckCsrf();
 
@@ -75,7 +76,12 @@ if ($method === 'POST') {
       );
       $isBookmarked = true;
     } else if ($action === 'unbookmark') {
-      $currentBookmark = array_filter($bookmarks, fn ($bookmark) => $bookmark->blog->id = $blog->id)[0];
+      $currentBookmark = array_values(
+        array_filter(
+          $bookmarks,
+          fn ($bookmark) => $bookmark->blog->id === $blog->id
+        )
+      )[0];
       $isSuccess = BookmarkRepository::delete($currentBookmark);
       useFlashAlert(
         $isSuccess ? 'Blog unbookmarked successfully.' : 'An error occurred while unbookmarking the blog.',
