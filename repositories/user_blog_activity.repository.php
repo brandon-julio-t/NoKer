@@ -2,13 +2,15 @@
 
 class UserBlogActivityRepository
 {
-  public static function getAllByUser(User $user)
+  public static function getAllActivitiesInThisMonthByUser(User $user)
   {
     $db = MySqlAdapter::get();
     $q = $db->prepare('
       select *
       from `user_blog_activities`
-      where user_id = ?
+      where `user_id` = ?
+        and year(`created_at`) = year(now())
+        and month(`created_at`) = month(now())
     ');
     $q->bind_param('s', $user->id);
     $q->execute();

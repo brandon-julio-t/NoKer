@@ -20,10 +20,10 @@ $method = useHttpMethod();
 if ($isLoggedIn) {
   $bookmarks = BookmarkRepository::getAllByUser($user);
 
-  $activities = UserBlogActivityRepository::getAllByUser($user);
+  $activities = UserBlogActivityRepository::getAllActivitiesInThisMonthByUser($user);
   $premiumBlogReadActivities = array_filter(
     $activities,
-    fn (UserBlogActivity $activity) => $activity->blog->is_premium
+    fn (UserBlogActivity $activity) => $activity->blog->is_premium && $activity->blog->user_id !== $user->id
   );
   $remainingPremiumBlogQuota = 3 - count($premiumBlogReadActivities);
   $isEligibleToRead = $remainingPremiumBlogQuota > 0;
