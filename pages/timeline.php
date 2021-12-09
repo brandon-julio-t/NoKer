@@ -1,3 +1,6 @@
 <?php
 
-echo 'timeline';
+useAuth();
+
+$user = Auth::getUser();
+

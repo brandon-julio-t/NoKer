@@ -196,8 +196,8 @@ useFlashAlert();
             <div x-data @click="location.href = '/profile?id=<?= $following->id ?>'" class="card shadow-sm" style="cursor: pointer;">
               <div class="card-body">
                 <div class="card-text">
-                  <img src="<?= $follower->profile_picture ?>" class="rounded-circle me-1" style="max-height: 32px; max-width: 32px;">
-                  <?= htmlspecialchars($follower->name) ?>
+                  <img src="<?= $following->profile_picture ?>" class="rounded-circle me-1" style="max-height: 32px; max-width: 32px;">
+                  <?= htmlspecialchars($following->name) ?>
                 </div>
               </div>
             </div>

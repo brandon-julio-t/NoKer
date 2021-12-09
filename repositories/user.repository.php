@@ -66,13 +66,14 @@ class UserRepository
   {
     $db = MySqlAdapter::get();
     $query = $db->prepare('
-      select *
+      select u.*
       from users u
         join user_friends uf on u.id = uf.friender_id
       where uf.friendee_id = ?
+        and u.id != ?
       order by u.name
     ');
-    $query->bind_param('s', $user->id);
+    $query->bind_param('ss', $user->id, $user->id);
     $query->execute();
     $result = $query->get_result();
 
@@ -89,13 +90,14 @@ class UserRepository
   {
     $db = MySqlAdapter::get();
     $query = $db->prepare('
-      select *
+      select u.*
       from users u
         join user_friends uf on u.id = uf.friendee_id
       where uf.friender_id = ?
+        and u.id != ?
       order by u.name
     ');
-    $query->bind_param('s', $user->id);
+    $query->bind_param('ss', $user->id, $user->id);
     $query->execute();
     $result = $query->get_result();
 
