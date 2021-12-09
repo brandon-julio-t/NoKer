@@ -31,7 +31,7 @@ if ($method === 'POST') {
 
 $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
 [$users, $totalCount] = UserRepository::getAllPaginated($currentPage);
-$maxPage = ceil($totalCount / 10);
+$maxPage = ceil($totalCount / 15);
 
 useFlashAlert();
 
