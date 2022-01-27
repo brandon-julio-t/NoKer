@@ -20,7 +20,7 @@ DocumentRoot "D:\GitHub\NoKer"
 
 2. Create `noker` database.
 3. Run `create.sql` in `localhost/phpmyadmin`.
-4. Visit `localhost/migrate` in browser to seed the database.
+4. Visit `localhost/seed` in browser to seed the database.
 5. Login as admin using `admin@email.com` and `admin` email password combination.
 6. Use the app.
 
