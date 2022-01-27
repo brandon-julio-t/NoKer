@@ -23,7 +23,6 @@ create table `blogs` (
   `content` text not null,
   `image_path` varchar(255) not null,
   `status` varchar(255) not null,
-  `category` varchar(255) not null,
   `user_id` varchar(255) not null,
   `created_at` datetime not null,
   `is_premium` boolean not null,
